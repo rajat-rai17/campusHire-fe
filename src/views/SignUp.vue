@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
     </div>
     <div>
       <Button>Sign Up</Button>
+      <Button>Login</Button>
     </div>
   </template>
   
