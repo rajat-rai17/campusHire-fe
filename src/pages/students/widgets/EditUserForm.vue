@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { PropType, computed, ref, watch } from 'vue'
 import { useForm } from 'vuestic-ui'
-import { User, UserRole } from '../types'
+import { Student, UserRole } from '../types'
 import UserAvatar from './UserAvatar.vue'
 import { useProjects } from '../../projects/composables/useProjects'
 import { validators } from '../../../services/utils'
 
 const props = defineProps({
   user: {
-    type: Object as PropType<User | null>,
+    type: Object as PropType<Student | null>,
     default: null,
   },
   saveButtonLabel: {
@@ -17,19 +17,15 @@ const props = defineProps({
   },
 })
 
-const defaultNewUser: User = {
-  id: -1,
-  avatar: '',
-  fullname: '',
-  role: 'user',
-  username: '',
-  notes: '',
-  email: '',
-  active: true,
-  projects: [],
+const defaultNewUser: Student = {
+  studentId: '',
+  mobileNo: '',
+  name: '',
+  program: '',
+  email: ''
 }
 
-const newUser = ref<User>({ ...defaultNewUser })
+const newUser = ref<Student>({ ...defaultNewUser })
 
 const isFormHasUnsavedChanges = computed(() => {
   return Object.keys(newUser.value).some((key) => {
@@ -37,7 +33,7 @@ const isFormHasUnsavedChanges = computed(() => {
       return false
     }
 
-    return newUser.value[key as keyof User] !== (props.user ?? defaultNewUser)?.[key as keyof User]
+    return newUser.value[key as keyof Student] !== (props.user ?? defaultNewUser)?.[key as keyof Student]
   })
 })
 
@@ -47,28 +43,20 @@ defineExpose({
 
 watch(
   () => props.user,
-  () => {
-    if (!props.user) {
-      return
-    }
-
-    newUser.value = {
-      ...props.user,
-      avatar: props.user.avatar || '',
+  // () => {
+  //   if (!props.user) {
+  //     return
+  //   }
+  // },
+  (newValue) => {
+    if (newValue) {
+      newUser.value = { ...newValue }; // Populate with the incoming user data
+    } else {
+      newUser.value = { ...defaultNewUser }; // Reset to default for a new user
     }
   },
   { immediate: true },
 )
-
-const avatar = ref<File>()
-
-const makeAvatarBlobUrl = (avatar: File) => {
-  return URL.createObjectURL(avatar)
-}
-
-watch(avatar, (newAvatar) => {
-  newUser.value.avatar = newAvatar ? makeAvatarBlobUrl(newAvatar) : ''
-})
 
 const form = useForm('add-user-form')
 
@@ -80,50 +68,31 @@ const onSave = () => {
   }
 }
 
-const roleSelectOptions: { text: Capitalize<UserRole>; value: UserRole }[] = [
-  { text: 'Admin', value: 'admin' },
-  { text: 'User', value: 'user' },
-  { text: 'Owner', value: 'owner' },
+const roleSelectOptions: {  }[] = [
+  { text: 'Bsc IT', value: 'Bsc IT' },
+  { text: 'Bsc Computer Science', value: 'Bsc Computer Science' },
+  { text: 'BMM', value: 'BMM' },
 ]
 
-const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, total: 10 }) })
 </script>
 
 <template>
   <VaForm v-slot="{ isValid }" ref="add-user-form" class="flex-col justify-start items-start gap-4 inline-flex w-full">
-    <VaFileUpload
-      v-model="avatar"
-      type="single"
-      hide-file-list
-      class="self-stretch justify-start items-center gap-4 inline-flex"
-    >
-      <UserAvatar :user="newUser" size="large" />
-      <VaButton preset="primary" size="small">Add image</VaButton>
-      <VaButton
-        v-if="avatar"
-        preset="primary"
-        color="danger"
-        size="small"
-        icon="delete"
-        class="z-10"
-        @click.stop="avatar = undefined"
-      />
-    </VaFileUpload>
     <div class="self-stretch flex-col justify-start items-start gap-4 flex">
       <div class="flex gap-4 flex-col sm:flex-row w-full">
         <VaInput
-          v-model="newUser.fullname"
-          label="Full name"
+          v-model="newUser.studentId"
+          label="Student Id"
           class="w-full sm:w-1/2"
           :rules="[validators.required]"
-          name="fullname"
+          name="studentId"
         />
         <VaInput
-          v-model="newUser.username"
-          label="Username"
+          v-model="newUser.name"
+          label="Name"
           class="w-full sm:w-1/2"
           :rules="[validators.required]"
-          name="username"
+          name="name"
         />
       </div>
       <div class="flex gap-4 flex-col sm:flex-row w-full">
@@ -134,25 +103,20 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
           :rules="[validators.required, validators.email]"
           name="email"
         />
-        <VaSelect
-          v-model="newUser.projects"
-          label="Projects"
+        <VaInput
+          v-model="newUser.mobileNo"
+          label="Mobile Number"
           class="w-full sm:w-1/2"
-          :options="projects"
           :rules="[validators.required]"
-          name="projects"
-          text-by="project_name"
-          track-by="id"
-          multiple
-          :max-visible-options="2"
+          name="mobileNo"
         />
       </div>
 
       <div class="flex gap-4 w-full">
         <div class="w-1/2">
           <VaSelect
-            v-model="newUser.role"
-            label="Role"
+            v-model="newUser.program"
+            label="Program"
             class="w-full"
             :options="roleSelectOptions"
             :rules="[validators.required]"
@@ -160,13 +124,7 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
             value-by="value"
           />
         </div>
-
-        <div class="flex items-center w-1/2 mt-4">
-          <VaCheckbox v-model="newUser.active" label="Active" class="w-full" name="active" />
-        </div>
       </div>
-
-      <VaTextarea v-model="newUser.notes" label="Notes" class="w-full" name="notes" />
       <div class="flex gap-2 flex-col-reverse items-stretch justify-end w-full sm:flex-row sm:items-center">
         <VaButton preset="secondary" color="secondary" @click="$emit('close')">Cancel</VaButton>
         <VaButton :disabled="!isValid" @click="onSave">{{ saveButtonLabel }}</VaButton>

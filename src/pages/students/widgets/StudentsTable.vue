@@ -8,11 +8,11 @@ import { useVModel } from '@vueuse/core'
 import { Project } from '../../projects/types'
 
 const columns = defineVaDataTableColumns([
-{ label: 'ID', key: 'studentId', sortable: true },  
-{ label: 'Full Name', key: 'name', sortable: true },
-  { label: 'Email', key: 'email', sortable: true },
-  { label: 'Mobile Number', key: 'mobileNo', sortable: true },
-  { label: 'Program', key: 'program', sortable: true },
+{ label: 'ID', key: 'studentId' },  
+{ label: 'Full Name', key: 'name' },
+  { label: 'Email', key: 'email' },
+  { label: 'Mobile Number', key: 'mobileNo' },
+  { label: 'Program', key: 'program' },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -28,8 +28,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits<{
-  (event: 'edit-user', user: User): void
-  (event: 'delete-user', user: User): void
+  (event: 'edit-user', user: Student): void
+  (event: 'delete-user', user: Student): void
   (event: 'update:sortBy', sortBy: Sorting['sortBy']): void
   (event: 'update:sortingOrder', sortingOrder: Sorting['sortingOrder']): void
 }>()
@@ -63,22 +63,6 @@ const onUserDelete = async (user: User) => {
   }
 }
 
-const formatProjectNames = (projects: Project[]) => {
-  if (projects.length === 0) return 'No projects'
-  if (projects.length <= 2) {
-    return projects.map((project) => project.project_name).join(', ')
-  }
-
-  return (
-    projects
-      .slice(0, 2)
-      .map((project) => project.project_name)
-      .join(', ') +
-    ' + ' +
-    (projects.length - 2) +
-    ' more'
-  )
-}
 </script>
 
 <template>
@@ -89,13 +73,13 @@ const formatProjectNames = (projects: Project[]) => {
     :items="users"
     :loading="$props.loading"
   >
-    <template #cell(fullname)="{ rowData }">
+    <template #cell(studentId)="{ rowData }">
       <div class="flex items-center gap-2 max-w-[230px] ellipsis">
         {{ rowData.studentId }}
       </div>
     </template>
 
-    <template #cell(username)="{ rowData }">
+    <template #cell(name)="{ rowData }">
       <div class="max-w-[120px] ellipsis">
         {{ rowData.name }}
       </div>
@@ -107,9 +91,9 @@ const formatProjectNames = (projects: Project[]) => {
       </div>
     </template>
 
-    <template #cell(projects)="{ rowData }">
-      <div class="ellipsis max-w-[300px] lg:max-w-[450px]">
-        {{ formatProjectNames(rowData.projects) }}
+    <template #cell(mobileNo)="{ rowData }">
+      <div class="ellipsis max-w-[230px]">
+        {{ rowData.mobileNo }}
       </div>
     </template>
 
@@ -120,7 +104,7 @@ const formatProjectNames = (projects: Project[]) => {
           size="small"
           icon="mso-edit"
           aria-label="Edit user"
-          @click="$emit('edit-user', rowData as User)"
+          @click="$emit('edit-user', rowData as Student)"
         />
         <VaButton
           preset="primary"
@@ -128,7 +112,7 @@ const formatProjectNames = (projects: Project[]) => {
           icon="mso-delete"
           color="danger"
           aria-label="Delete user"
-          @click="onUserDelete(rowData as User)"
+          @click="onUserDelete(rowData as Student)"
         />
       </div>
     </template>

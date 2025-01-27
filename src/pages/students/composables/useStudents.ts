@@ -1,11 +1,11 @@
 import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
-import { getUsers, updateUser, addUser, removeUser, type Filters, Pagination, Sorting } from '../../../data/pages/students'
+import { getUsers, updateStudent, addStudent, removeUser, type Filters, Pagination, Sorting } from '../../../data/pages/students'
 import { Student } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
 const makePaginationRef = () => ref<Pagination>({ page: 1, perPage: 10, total: 0 })
-const makeSortingRef = () => ref<Sorting>({ sortBy: 'fullname', sortingOrder: null })
+const makeSortingRef = () => ref<Sorting>({ sortBy: 'name', sortingOrder: null })
 const makeFiltersRef = () => ref<Partial<Filters>>({ isActive: true, search: '' })
 
 export const useStudents = (options?: {
@@ -45,7 +45,7 @@ export const useStudents = (options?: {
       ...unref(sorting),
       ...unref(pagination),
     })
-    users.value = data
+    users.value = apiResultData
 
     ignoreUpdates(() => {
       pagination.value = newPagination
@@ -79,21 +79,23 @@ export const useStudents = (options?: {
 
     fetch,
 
-    async add(user: User) {
+    async add(student: Student) {
       isLoading.value = true
-      await addUser(user)
+      const result = await addStudent(student)
       await fetch()
       isLoading.value = false
+      return result
     },
 
-    async update(user: User) {
+    async update(student: Student) {
       isLoading.value = true
-      await updateUser(user)
+      const result = await updateStudent(student)
       await fetch()
       isLoading.value = false
+      return result
     },
 
-    async remove(user: User) {
+    async remove(user: Student) {
       isLoading.value = true
       await removeUser(user)
       await fetch()

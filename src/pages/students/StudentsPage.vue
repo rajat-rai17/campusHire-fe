@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import StudentsTable from './widgets/StudentsTable.vue'
 import EditUserForm from './widgets/EditUserForm.vue'
-import { User } from './types'
+import { Student } from './types'
 import { useStudents } from './composables/useStudents'
 import { useModal, useToast } from 'vuestic-ui'
 
@@ -10,9 +10,10 @@ const doShowEditUserModal = ref(false)
 
 const { users, isLoading, filters, sorting, pagination, ...usersApi } = useStudents()
 
-const userToEdit = ref<User | null>(null)
+const userToEdit = ref<Student | null>(null)
 
-const showEditUserModal = (user: User) => {
+const showEditUserModal = (user: Student) => {
+  console.log("🚀 ~ showEditUserModal ~ user:", user);
   userToEdit.value = user
   doShowEditUserModal.value = true
 }
@@ -24,23 +25,30 @@ const showAddUserModal = () => {
 
 const { init: notify } = useToast()
 
-const onUserSaved = async (user: User) => {
-  if (userToEdit.value) {
-    await usersApi.update(user)
-    notify({
-      message: `${user.fullname} has been updated`,
-      color: 'success',
-    })
-  } else {
-    usersApi.add(user)
-    notify({
-      message: `${user.fullname} has been created`,
-      color: 'success',
-    })
-  }
-}
+const onUserSaved = async (user: Student) => {
+  const isEdit = Boolean(userToEdit.value);
+  const apiMethod = isEdit ? usersApi.update : usersApi.add;
+  const successMessage = `${user.name} has been ${isEdit ? 'updated' : 'added'}`;
+  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user';
 
-const onUserDelete = async (user: User) => {
+  try {
+    const result = await apiMethod(user);
+
+    notify({
+      message: result?.status ? successMessage : result?.message || errorMessage,
+      color: result?.status ? 'success' : 'danger',
+    });
+  } catch (error) {
+    notify({
+      message: error?.message || 'An unexpected error occurred',
+      color: 'danger',
+    });
+  }
+};
+
+
+
+const onUserDelete = async (user: Student) => {
   await usersApi.remove(user)
   notify({
     message: `${user.fullname} has been deleted`,
@@ -52,20 +60,6 @@ const editFormRef = ref()
 
 const { confirm } = useModal()
 
-const beforeEditFormModalClose = async (hide: () => unknown) => {
-  if (editFormRef.value.isFormHasUnsavedChanges) {
-    const agreed = await confirm({
-      maxWidth: '380px',
-      message: 'Form has unsaved changes. Are you sure you want to close it?',
-      size: 'small',
-    })
-    if (agreed) {
-      hide()
-    }
-  } else {
-    hide()
-  }
-}
 </script>
 
 <template>
@@ -75,22 +69,13 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
     <VaCardContent>
       <div class="flex flex-col md:flex-row gap-2 mb-2 justify-between">
         <div class="flex flex-col md:flex-row gap-2 justify-start">
-          <!-- <VaButtonToggle
-            v-model="filters.isActive"
-            color="background-element"
-            border-color="background-element"
-            :options="[
-              { label: 'Active', value: true },
-              { label: 'Inactive', value: false },
-            ]"
-          /> -->
           <VaInput v-model="filters.search" placeholder="Search">
             <template #prependInner>
               <VaIcon name="search" color="secondary" size="small" />
             </template>
           </VaInput>
         </div>
-        <VaButton @click="showAddUserModal">Add User</VaButton>
+        <VaButton @click="showAddUserModal">Add Student</VaButton>
       </div>
 
       <StudentsTable
@@ -112,7 +97,6 @@ const beforeEditFormModalClose = async (hide: () => unknown) => {
     mobile-fullscreen
     close-button
     hide-default-actions
-    :before-cancel="beforeEditFormModalClose"
   >
     <h1 class="va-h5">{{ userToEdit ? 'Edit Student' : 'Add Student' }}</h1>
     <EditUserForm
