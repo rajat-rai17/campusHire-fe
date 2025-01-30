@@ -3,7 +3,7 @@ import { defineVaDataTableColumns, useModal } from 'vuestic-ui'
 import { Student, UserRole } from '../types'
 import UserAvatar from './UserAvatar.vue'
 import { PropType, computed, toRef } from 'vue'
-import { Pagination, Sorting } from '../../../data/pages/users'
+import { Pagination, Sorting } from '../../../data/pages/students'
 import { useVModel } from '@vueuse/core'
 import { Project } from '../../projects/types'
 
@@ -45,13 +45,13 @@ const roleColors: Record<UserRole, string> = {
 }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
-
+console.log("🚀 ~ props.pagination.total:", props.pagination)
 const { confirm } = useModal()
 
-const onUserDelete = async (user: User) => {
+const onUserDelete = async (student: Student) => {
   const agreed = await confirm({
-    title: 'Delete user',
-    message: `Are you sure you want to delete ${user.fullname}?`,
+    title: 'Delete Student',
+    message: `Are you sure you want to delete ${student.name}?`,
     okText: 'Delete',
     cancelText: 'Cancel',
     size: 'small',
@@ -59,7 +59,7 @@ const onUserDelete = async (user: User) => {
   })
 
   if (agreed) {
-    emit('delete-user', user)
+    emit('delete-user', student)
   }
 }
 
@@ -125,7 +125,7 @@ const onUserDelete = async (user: User) => {
       <VaSelect v-model="$props.pagination.perPage" class="!w-20" :options="[10, 50, 100]" />
     </div>
 
-    <div v-if="totalPages > 1" class="flex">
+    <div v-if="totalPages > 0" class="flex">
       <VaButton
         preset="secondary"
         icon="va-arrow-left"

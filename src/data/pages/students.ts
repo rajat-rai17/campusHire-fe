@@ -44,29 +44,12 @@ const getSortItem = (obj: any, sortBy: string) => {
 
 export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>) => {
   await sleep(1000)
-  const { isActive, search, sortBy, sortingOrder } = filters
+  const {  search  } = filters
   let filteredUsers = users
 
-  // filteredUsers = filteredUsers.filter((user) => user.active === isActive)
 
   if (search) {
     filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
-  }
-
-  // filteredUsers = filteredUsers.map((user) => ({ ...user, projects: getUserProjects(user.id) }))
-
-  if (sortBy && sortingOrder) {
-    filteredUsers = filteredUsers.sort((a, b) => {
-      const first = getSortItem(a, sortBy)
-      const second = getSortItem(b, sortBy)
-      if (first > second) {
-        return sortingOrder === 'asc' ? 1 : -1
-      }
-      if (first < second) {
-        return sortingOrder === 'asc' ? -1 : 1
-      }
-      return 0
-    })
   }
 
   const { page = 1, perPage = 10 } = filters || {}
@@ -82,6 +65,8 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 export const addStudent = async (student: Student) => {
   try {
+    student.studentId = +student.studentId
+    
     const response = await axios.post('http://localhost:9321/student/create', {
       ...student
     })
@@ -95,6 +80,8 @@ export const addStudent = async (student: Student) => {
 
 export const updateStudent = async (student: Student) => {
   try {
+    student.studentId = +student.studentId
+    
     const response = await axios.post('http://localhost:9321/student/update', {
       ...student
     })
@@ -108,10 +95,17 @@ export const updateStudent = async (student: Student) => {
 
 }
 
-export const removeUser = async (user: Student) => {
-  await sleep(1000)
-  users.splice(
-    users.findIndex((u) => u.studentId === user.studentId),
-    1,
-  )
+export const removeStudent = async (student: Student) => {
+  const { studentId } = student
+  try {
+    student.studentId = +student.studentId
+    const response = await axios.post('http://localhost:9321/student/remove', {
+      studentId
+    })
+    const { data: apiData } = response.data
+    return apiData
+  } catch (error) {
+    console.error(error)
+  }
+  
 }

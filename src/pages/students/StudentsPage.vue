@@ -9,11 +9,9 @@ import { useModal, useToast } from 'vuestic-ui'
 const doShowEditUserModal = ref(false)
 
 const { users, isLoading, filters, sorting, pagination, ...usersApi } = useStudents()
-
 const userToEdit = ref<Student | null>(null)
 
 const showEditUserModal = (user: Student) => {
-  console.log("🚀 ~ showEditUserModal ~ user:", user);
   userToEdit.value = user
   doShowEditUserModal.value = true
 }
@@ -48,10 +46,10 @@ const onUserSaved = async (user: Student) => {
 
 
 
-const onUserDelete = async (user: Student) => {
-  await usersApi.remove(user)
+const onUserDelete = async (student: Student) => {
+  await usersApi.remove(student)
   notify({
-    message: `${user.fullname} has been deleted`,
+    message: `${student.name} has been deleted`,
     color: 'success',
   })
 }

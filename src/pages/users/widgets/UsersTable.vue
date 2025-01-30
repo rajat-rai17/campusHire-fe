@@ -45,6 +45,8 @@ const roleColors: Record<UserRole, string> = {
 }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
+console.log("🚀 ~ totalPages:", Math.ceil(props.pagination.total / props.pagination.perPage));
+console.log("🚀 ~ props.pagination.total:", props.pagination.total)
 
 const { confirm } = useModal()
 

@@ -1,6 +1,6 @@
 import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
-import { getUsers, updateStudent, addStudent, removeUser, type Filters, Pagination, Sorting } from '../../../data/pages/students'
+import { getUsers, updateStudent, addStudent, type Filters, Pagination, Sorting, removeStudent } from '../../../data/pages/students'
 import { Student } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
@@ -21,16 +21,18 @@ export const useStudents = (options?: {
   const fetch = async () => {
     isLoading.value = true
     let apiResultData = null
+    let total = 0
     try {
       
       const response = await axios.post('http://localhost:9321/student/list', {
         ...unref(filters),
-        sorting: unref(sorting),
         pagination: unref(pagination),
       })
       const { data: apiData } = response.data
+      
       if (apiData?.status) {
         apiResultData = apiData.data
+        total = apiData.totalRecords
       } else {
         console.error('Failed to fetch users:', response.data.message)
       }
@@ -40,11 +42,17 @@ export const useStudents = (options?: {
       return
       
     }
-    const { data, pagination: newPagination } = await getUsers({
-      ...unref(filters),
-      ...unref(sorting),
-      ...unref(pagination),
-    })
+    // const { data, pagination: newPagination } = await getUsers({
+    //   ...unref(filters),
+    //   ...unref(sorting),
+    //   ...unref(pagination),
+    // })
+    const oldPagination = unref(pagination)
+    const newPagination  = {
+      page: oldPagination.page,
+      perPage: oldPagination.perPage,
+      total,
+    }
     users.value = apiResultData
 
     ignoreUpdates(() => {
@@ -95,9 +103,9 @@ export const useStudents = (options?: {
       return result
     },
 
-    async remove(user: Student) {
+    async remove(student: Student) {
       isLoading.value = true
-      await removeUser(user)
+      await removeStudent(student)
       await fetch()
       isLoading.value = false
     },
