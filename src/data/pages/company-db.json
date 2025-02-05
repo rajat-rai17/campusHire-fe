@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "email": "magicpan@example.gg",
+    "active": true,
+    "mobileNo": "987654",
+    "program": "B.Tech",
+    "name": "Rajat"
+  }
+]

@@ -26,6 +26,13 @@ export default {
       },
     },
     {
+      name: 'company',
+      displayName: 'Company',
+      meta: {
+        icon: 'group',
+      },
+    },
+    {
       name: 'users',
       displayName: 'menu.users',
       meta: {
