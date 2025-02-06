@@ -26,6 +26,13 @@ export default {
       },
     },
     {
+      name: 'jobs',
+      displayName: 'Jobs',
+      meta: {
+        icon: 'group',
+      },
+    },
+    {
       name: 'users',
       displayName: 'menu.users',
       meta: {
