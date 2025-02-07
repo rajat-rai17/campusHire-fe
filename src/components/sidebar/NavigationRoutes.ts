@@ -25,9 +25,16 @@ export default {
         icon: 'group',
       },
     },
-    {
-      name: 'company',
+{
+  name: 'company',
       displayName: 'Company',
+  meta: {
+    icon: 'group',
+  },
+},
+    {
+      name: 'jobs',
+      displayName: 'Jobs',
       meta: {
         icon: 'group',
       },
