@@ -18,11 +18,14 @@ const props = defineProps({
 })
 
 const defaultNewUser: Company = {
-  companyId: '',
+  companyId:0,
   mobileNo: '',
   name: '',
-  program: '',
-  email: ''
+  email: '',
+  sector: '',
+  spocName: '',
+  spocMobileNo: '',
+  website: ''
 }
 
 const newUser = ref<Company>({ ...defaultNewUser })
@@ -68,11 +71,6 @@ const onSave = () => {
   }
 }
 
-const roleSelectOptions: {  }[] = [
-  { text: 'Remote', value: 'Remote' },
-  { text: 'On-site', value: 'On-site' },
-  { text: 'Internship', value: 'Internship' },
-]
 
 </script>
 
@@ -81,21 +79,12 @@ const roleSelectOptions: {  }[] = [
     <div class="self-stretch flex-col justify-start items-start gap-4 flex">
       <div class="flex gap-4 flex-col sm:flex-row w-full">
         <VaInput
-          v-model="newUser.companyId"
-          label="Company Id"
-          class="w-full sm:w-1/2"
-          :rules="[validators.required]"
-          name="CompanyId"
-        />
-        <VaInput
           v-model="newUser.name"
           label="Name"
           class="w-full sm:w-1/2"
           :rules="[validators.required]"
           name="name"
         />
-      </div>
-      <div class="flex gap-4 flex-col sm:flex-row w-full">
         <VaInput
           v-model="newUser.email"
           label="Email"
@@ -103,6 +92,9 @@ const roleSelectOptions: {  }[] = [
           :rules="[validators.required, validators.email]"
           name="email"
         />
+      </div>
+      <div class="flex gap-4 flex-col sm:flex-row w-full">
+        
         <VaInput
           v-model="newUser.mobileNo"
           label="Mobile Number"
@@ -110,21 +102,49 @@ const roleSelectOptions: {  }[] = [
           :rules="[validators.required]"
           name="mobileNo"
         />
+
+        <VaInput
+          v-model="newUser.sector"
+          label="Sector"
+          class="w-full sm:w-1/2"
+          :rules="[validators.required]"
+          name="sector"
+        />
       </div>
 
-      <div class="flex gap-4 w-full">
-        <div class="w-1/2">
-          <VaSelect
-            v-model="newUser.type"
-            label="Type"
-            class="w-full"
-            :options="roleSelectOptions"
-            :rules="[validators.required]"
-            name="role"
-            value-by="value"
-          />
-        </div>
+      <div class="flex gap-4 flex-col sm:flex-row w-full">
+        
+        <VaInput
+          v-model="newUser.spocName"
+          label="SPOC Name"
+          class="w-full sm:w-1/2"
+          :rules="[validators.required]"
+          name="spocName"
+        />
+
+        <VaInput
+          v-model="newUser.spocMobileNo"
+          label="SPOC Mobile Number"
+          class="w-full sm:w-1/2"
+          :rules="[validators.required]"
+          name="spocMobileNo"
+        />
       </div>
+
+      <div class="flex gap-4 flex-col sm:flex-row w-full">
+        
+        <VaInput
+          v-model="newUser.website"
+          label="Website"
+          class="w-full sm:w-1/2"
+          :rules="[validators.required]"
+          name="website"
+        />
+      </div>
+
+
+
+
       <div class="flex gap-2 flex-col-reverse items-stretch justify-end w-full sm:flex-row sm:items-center">
         <VaButton preset="secondary" color="secondary" @click="$emit('close')">Cancel</VaButton>
         <VaButton :disabled="!isValid" @click="onSave">{{ saveButtonLabel }}</VaButton>

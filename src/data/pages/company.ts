@@ -66,8 +66,6 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 export const addCompany = async (company: Company) => {
   try {
-    company.companyId = +company.companyId
-    
     const response = await axios.post('http://localhost:9321/company/create', {
       ...company
     })

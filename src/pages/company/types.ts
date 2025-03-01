@@ -6,5 +6,8 @@ export type Company = {
   name: string
   email: string
   mobileNo: string
-  type: string
+  sector: string,
+  website: string,
+  spocName: string,
+  spocMobileNo: string,
 }

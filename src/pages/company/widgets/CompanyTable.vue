@@ -12,7 +12,7 @@ const columns = defineVaDataTableColumns([
 { label: 'Company Name', key: 'name' },
   { label: 'Email', key: 'email' },
   { label: 'Mobile Number', key: 'mobileNo' },
-  { label: 'Type', key: 'type' },
+  { label: 'Sector', key: 'sector' },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -94,6 +94,11 @@ const onUserDelete = async (Company: Company) => {
     <template #cell(mobileNo)="{ rowData }">
       <div class="ellipsis max-w-[230px]">
         {{ rowData.mobileNo }}
+      </div>
+    </template>
+    <template #cell(sector)="{ rowData }">
+      <div class="ellipsis max-w-[230px]">
+        {{ rowData.sector }}
       </div>
     </template>
 
