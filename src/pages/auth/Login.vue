@@ -1,3 +1,39 @@
+<script lang="ts" setup>
+import { reactive, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { login } from '../../services/authService'
+
+const router = useRouter()
+const formData = reactive({
+  email: '',
+  password: ''
+})
+const isLoading = ref(false)
+const errorMessage = ref('')
+
+const submit = async () => {
+  isLoading.value = true
+  errorMessage.value = ''
+
+  try {
+    const { user } = await login(formData.email, formData.password)
+
+    // ✅ Redirect based on role
+    if (user.role === 'student') {
+      router.push('../pages/StudentDashboard.vue') // ✅ Ensure this route exists in `router/index.ts`
+    } else if (user.role === 'admin') {
+      router.push('../pages/admin/dashboard/Dashboard.vue')
+    } else {
+      router.push('/') // Default fallback
+    }
+  } catch (error) {
+    errorMessage.value = 'Invalid email or password'
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
+
 <template>
   <VaForm ref="form" @submit.prevent="submit">
     <h1 class="font-semibold text-4xl mb-4">Log in</h1>
@@ -7,7 +43,6 @@
     </p>
     <VaInput
       v-model="formData.email"
-      :rules="[validators.required, validators.email]"
       class="mb-4"
       label="Email"
       type="email"
@@ -15,7 +50,7 @@
     <VaValue v-slot="isPasswordVisible" :default-value="false">
       <VaInput
         v-model="formData.password"
-        :rules="[validators.required]"
+
         :type="isPasswordVisible.value ? 'text' : 'password'"
         class="mb-4"
         label="Password"
@@ -32,7 +67,7 @@
     </VaValue>
 
     <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
-      <VaCheckbox v-model="formData.keepLoggedIn" class="mb-2 sm:mb-0" label="Keep me signed in on this device" />
+      
       <RouterLink :to="{ name: 'recover-password' }" class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-primary">
         Forgot password?
       </RouterLink>
@@ -44,26 +79,3 @@
   </VaForm>
 </template>
 
-<script lang="ts" setup>
-import { reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { useForm, useToast } from 'vuestic-ui'
-import { validators } from '../../services/utils'
-
-const { validate } = useForm('form')
-const { push } = useRouter()
-const { init } = useToast()
-
-const formData = reactive({
-  email: '',
-  password: '',
-  keepLoggedIn: false,
-})
-
-const submit = () => {
-  if (validate()) {
-    init({ message: "You've successfully logged in", color: 'success' })
-    push({ name: 'dashboard' })
-  }
-}
-</script>

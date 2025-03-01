@@ -1,9 +1,10 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { getUser, isAuthenticated } from '../services/authService';
+import type { AuthUser } from '../data/pages/authUser.ts';
 
-import AuthLayout from '../layouts/AuthLayout.vue'
-import AppLayout from '../layouts/AppLayout.vue'
-
-import RouteViewComponent from '../layouts/RouterBypass.vue'
+import AuthLayout from '../layouts/AuthLayout.vue';
+import AppLayout from '../layouts/AppLayout.vue';
+import RouteViewComponent from '../layouts/RouterBypass.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,6 +16,7 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     component: AppLayout,
     redirect: { name: 'dashboard' },
+    meta: { requiresAuth: true, role: 'admin' }, // ✅ Protect all admin routes
     children: [
       {
         name: 'dashboard',
@@ -45,7 +47,8 @@ const routes: Array<RouteRecordRaw> = [
         name: 'jobs',
         path: 'jobs',
         component: () => import('../pages/jobs/JobsPage.vue'),
-      },{
+      },
+      {
         name: 'company',
         path: 'company',
         component: () => import('../pages/company/CompanyPage.vue'),
@@ -85,6 +88,12 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    name: 'student-dashboard',
+    path: '/student-dashboard',
+    component: () => import('../pages/StudentDashboard.vue'),
+    meta: { requiresAuth: true, role: 'student' }
+  },
+  {
     path: '/auth',
     component: AuthLayout,
     children: [
@@ -119,22 +128,36 @@ const routes: Array<RouteRecordRaw> = [
     path: '/404',
     component: () => import('../pages/404.vue'),
   },
-]
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     }
-    // For some reason using documentation example doesn't scroll on page navigation.
     if (to.hash) {
-      return { el: to.hash, behavior: 'smooth' }
+      return { el: to.hash, behavior: 'smooth' };
     } else {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
     }
   },
   routes,
-})
+});
 
-export default router
+// 🔹 Add Route Guards for Authentication & Role-Based Access
+router.beforeEach((to, from, next) => {
+  const user: AuthUser | null = getUser();
+
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    // If route requires authentication and user is not logged in
+    next({ name: 'login' });
+  } else if (to.meta.role && user?.role !== to.meta.role) {
+    // If route requires a specific role and user role doesn't match
+    next({ name: 'dashboard' }); // Redirect to dashboard or any fallback page
+  } else {
+    next(); // Allow navigation
+  }
+});
+
+export default router;
