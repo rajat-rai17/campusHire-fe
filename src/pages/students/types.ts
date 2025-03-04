@@ -2,7 +2,7 @@
 export type UserRole = 'admin' | 'user' | 'owner'
 
 export type Student = {
-  studentId: number
+  studentId: string
   name: string
   email: string
   mobileNo: string

@@ -10,9 +10,12 @@ import { Project } from '../../projects/types'
 const columns = defineVaDataTableColumns([
 { label: 'ID', key: 'jobId' },  
 { label: 'Title', key: 'title' },
-  { label: 'Work Mode', key: 'workMode' },
+  { label: 'Type', key: 'type' },
   { label: 'Interview Date', key: 'interviewDate' },
   { label: 'Location', key: 'location' },
+  {label: 'Location Type', key: 'locationType' },
+  {label: 'Company', key: 'companyName' },
+  {label: 'Program', key: 'programName' },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -87,13 +90,25 @@ const onUserDelete = async (job: Job) => {
 
     <template #cell(workMode)="{ rowData }">
       <div class="ellipsis max-w-[230px]">
-        {{ rowData.workMode}}
+        {{ rowData.type}}
       </div>
     </template>
 
     <template #cell(interviewDate)="{ rowData }">
       <div class="ellipsis max-w-[230px]">
         {{ rowData.interviewDate }}
+      </div>
+    </template>
+
+    <template #cell(companyName)="{ rowData }">
+      <div class="ellipsis max-w-[230px]">
+        {{ rowData.companyName }}
+      </div>
+    </template>
+
+    <template #cell(programName)="{ rowData }">
+      <div class="ellipsis max-w-[230px]">
+        {{ rowData.programName }}
       </div>
     </template>
 

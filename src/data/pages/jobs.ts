@@ -49,7 +49,7 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 
   if (search) {
-    filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
+    filteredUsers = filteredUsers.filter((user) => user.title.toLowerCase().includes(search.toLowerCase()))
   }
 
   const { page = 1, perPage = 10 } = filters || {}
@@ -65,8 +65,7 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 export const addJob = async (job: Job) => {
   try {
-    job.jobId = +job.jobId
-    
+    job.jobId = +job.jobId 
     const response = await axios.post('http://localhost:9321/job/create', {
       ...job
     })
@@ -104,6 +103,18 @@ export const removeJob = async (job: Job) => {
     })
     const { data: apiData } = response.data
     return apiData
+  } catch (error) {
+    console.error(error)
+  }
+  
+}
+
+export const masterData = async (dataRequired: any) => {
+  try {
+    const response = await axios.post('http://localhost:9321/job/masterData', {
+      dataRequired
+    })
+    return  response.data
   } catch (error) {
     console.error(error)
   }

@@ -1,11 +1,11 @@
 import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
-import { getUsers, updateJob, addJob, type Filters, Pagination, Sorting, removeJob } from '../../../data/pages/jobs'
+import { getUsers, updateJob, addJob, type Filters, Pagination, Sorting, removeJob, masterData } from '../../../data/pages/jobs'
 import { Job } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
 const makePaginationRef = () => ref<Pagination>({ page: 1, perPage: 10, total: 0 })
-const makeSortingRef = () => ref<Sorting>({ sortBy: 'name', sortingOrder: null })
+const makeSortingRef = () => ref<Sorting>({ sortBy: 'title', sortingOrder: null })
 const makeFiltersRef = () => ref<Partial<Filters>>({ isActive: true, search: '' })
 
 export const useJobs = (options?: {
@@ -108,6 +108,11 @@ export const useJobs = (options?: {
       await removeJob(job)
       await fetch()
       isLoading.value = false
+    },
+
+    async masterData() {
+      const result = await masterData(["programData","companyData"])
+      return result
     },
   }
 }

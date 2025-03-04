@@ -10,15 +10,24 @@ const doShowEditUserModal = ref(false)
 
 const { users, isLoading, filters, sorting, pagination, ...usersApi } = useJobs()
 const userToEdit = ref<Job | null>(null)
+  const programData = ref([]);   // Store program data
+  const companyData = ref([]);   // Store company data
 
-const showEditUserModal = (user: Job) => {
+const showEditUserModal =  async (user: Job) => {
   userToEdit.value = user
   doShowEditUserModal.value = true
+  const result = await usersApi.masterData()
+  programData.value = result.data.programData || [];
+  companyData.value = result.data.companyData || [];
 }
 
-const showAddUserModal = () => {
+const showAddUserModal =  async () => {
   userToEdit.value = null
   doShowEditUserModal.value = true
+  const result = await usersApi.masterData()
+  programData.value = result.data.programData || [];
+  companyData.value = result.data.companyData || [];
+  
 }
 
 const { init: notify } = useToast()
@@ -60,6 +69,7 @@ const { confirm } = useModal()
 
 </script>
 
+
 <template>
   <h1 class="page-title">Jobs</h1>
 
@@ -95,11 +105,14 @@ const { confirm } = useModal()
     mobile-fullscreen
     close-button
     hide-default-actions
+    :style="{ height: '900px', maxHeight: '180vh' }"
   >
     <h1 class="va-h5">{{ userToEdit ? 'Edit Job' : 'Add Job' }}</h1>
     <EditUserForm
       ref="editFormRef"
       :user="userToEdit"
+       :program-data="programData"
+      :company-data="companyData"
       :save-button-label="userToEdit ? 'Save' : 'Add'"
       @close="cancel"
       @save="
