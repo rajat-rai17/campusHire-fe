@@ -1,9 +1,22 @@
 import { sleep } from '../../services/utils'
 import { Notice } from '../../pages/notice/types'
-import noticesDb from './notice-db.json'
+import usersDb from './notice-db.json'
 import axios from 'axios'
 
-export const notices = noticesDb as unknown as Notice[]
+export const users = usersDb as unknown as Notice[]
+
+// const getUserProjects = (userId: number | string) => {
+//   return projectsDb
+//     .filter((project) => project.team.includes(Number(userId)))
+//     .map((project) => ({
+//       ...project,
+//       project_owner: users.find((user) => user.id === project.project_owner)!,
+//       team: project.team.map((userId) => users.find((user) => user.id === userId)!),
+//       status: project.status as Project['status'],
+//     }))
+// }
+
+// Simulate API calls
 
 export type Pagination = {
   page: number
@@ -17,38 +30,43 @@ export type Sorting = {
 }
 
 export type Filters = {
+  isActive: boolean
   search: string  
 }
 
+const getSortItem = (obj: any, sortBy: string) => {
+  if (sortBy === 'projects') {
+    return obj.projects.map((project: any) => project.project_name).join(', ')
+  }
 
-const getSortItem = (obj: any, sortBy: string) => obj[sortBy]
+  return obj[sortBy]
+}
 
-
-export const getNotices = async (filters: Partial<Filters & Pagination & Sorting>) => {
+export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>) => {
   await sleep(1000)
-  const { search } = filters
-  let filteredNotices = notices
+  const {  search  } = filters
+  let filteredUsers = users
+
 
   if (search) {
-    filteredNotices = filteredNotices.filter((notice) =>
-      notice.title.toLowerCase().includes(search.toLowerCase())
-    )
+    filteredUsers = filteredUsers.filter((user) => user.programs.includes(search.toLowerCase()))
   }
 
   const { page = 1, perPage = 10 } = filters || {}
   return {
-    data: filteredNotices.slice((page - 1) * perPage, page * perPage),
+    data: filteredUsers.slice((page - 1) * perPage, page * perPage),
     pagination: {
       page,
       perPage,
-      total: filteredNotices.length,
+      total: filteredUsers.length,
     },
   }
 }
 
-
 export const addNotice = async (notice: Notice) => {
   try {
+    notice.noticeId = +notice.noticeId
+    
     const response = await axios.post('http://localhost:9321/notice/create', {
       ...notice
     })
@@ -60,11 +78,10 @@ export const addNotice = async (notice: Notice) => {
   return false
 }
 
-
 export const updateNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
-
+    
     const response = await axios.post('http://localhost:9321/notice/update', {
       ...notice
     })
@@ -74,8 +91,9 @@ export const updateNotice = async (notice: Notice) => {
     console.error(error)
   }
   return false
-}
 
+
+}
 
 export const removeNotice = async (notice: Notice) => {
   const { noticeId } = notice
@@ -89,4 +107,17 @@ export const removeNotice = async (notice: Notice) => {
   } catch (error) {
     console.error(error)
   }
+  
+}
+
+export const masterData = async (dataRequired: any) => {
+  try {
+    const response = await axios.post('http://localhost:9321/notice/masterData', {
+      dataRequired
+    })
+    return  response.data
+  } catch (error) {
+    console.error(error)
+  }
+  
 }

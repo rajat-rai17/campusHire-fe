@@ -2,9 +2,8 @@
 export type UserRole = 'admin' | 'user' | 'owner'
 
 export type Notice = {
+  programId: any
   noticeId: number
   title: string
-  attachment: string
-  program: string
+  programs: string[]
 }
-
