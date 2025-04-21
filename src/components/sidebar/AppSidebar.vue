@@ -1,7 +1,7 @@
 <template>
   <VaSidebar v-model="writableVisible" :width="sidebarWidth" :color="color" minimized-width="0">
     <VaAccordion v-model="value" multiple>
-      <VaCollapse v-for="(route, index) in navigationRoutes.routes" :key="index">
+      <VaCollapse v-for="(route, index) in navigationRoutes" :key="index">
         <template #header="{ value: isCollapsed }">
           <VaSidebarItem
             :to="route.children ? undefined : { name: route.name }"
@@ -27,6 +27,7 @@
             </VaSidebarItemContent>
           </VaSidebarItem>
         </template>
+
         <template #body>
           <div v-for="(childRoute, index2) in route.children" :key="index2">
             <VaSidebarItem
@@ -34,7 +35,7 @@
               :active="isActiveChildRoute(childRoute)"
               :active-color="activeColor"
               :text-color="textColor(childRoute)"
-              :aria-label="`Visit ${t(route.displayName)}`"
+              :aria-label="`Visit ${t(childRoute.displayName)}`"
               hover-opacity="0.10"
             >
               <VaSidebarItemContent class="py-3 pr-2 pl-11">
@@ -49,14 +50,14 @@
     </VaAccordion>
   </VaSidebar>
 </template>
+
 <script lang="ts">
 import { defineComponent, watch, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-
 import { useI18n } from 'vue-i18n'
 import { useColors } from 'vuestic-ui'
 
-import navigationRoutes, { type INavigationRoute } from './NavigationRoutes'
+import { adminRoutes, studentRoutes, type INavigationRoute } from './NavigationRoutes'
 
 export default defineComponent({
   name: 'Sidebar',
@@ -66,7 +67,7 @@ export default defineComponent({
   },
   emits: ['update:visible'],
 
-  setup: (props, { emit }) => {
+  setup(props, { emit }) {
     const { getColor, colorToRgba } = useColors()
     const route = useRoute()
     const { t } = useI18n()
@@ -78,26 +79,38 @@ export default defineComponent({
       set: (v: boolean) => emit('update:visible', v),
     })
 
+    // Load routes based on user role
+    const userType = JSON.parse(localStorage.getItem('user') || '{}')?.type
+    const navigationRoutes = computed(() =>
+      userType === 'admin' ? adminRoutes : studentRoutes
+    )
+
     const isActiveChildRoute = (child: INavigationRoute) => route.name === child.name
 
     const routeHasActiveChild = (section: INavigationRoute) => {
       if (!section.children) {
         return route.path.endsWith(`${section.name}`)
       }
-
       return section.children.some(({ name }) => route.path.endsWith(`${name}`))
     }
 
     const setActiveExpand = () =>
-      (value.value = navigationRoutes.routes.map((route: INavigationRoute) => routeHasActiveChild(route)))
+      (value.value = navigationRoutes.value.map((route: INavigationRoute) =>
+        routeHasActiveChild(route)
+      ))
 
     const sidebarWidth = computed(() => (props.mobile ? '100vw' : '280px'))
     const color = computed(() => getColor('background-secondary'))
     const activeColor = computed(() => colorToRgba(getColor('focus'), 0.1))
 
-    const iconColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'primary' : 'secondary')
-    const textColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'primary' : 'textPrimary')
-    const arrowDirection = (state: boolean) => (state ? 'va-arrow-up' : 'va-arrow-down')
+    const iconColor = (route: INavigationRoute) =>
+      routeHasActiveChild(route) ? 'primary' : 'secondary'
+
+    const textColor = (route: INavigationRoute) =>
+      routeHasActiveChild(route) ? 'primary' : 'textPrimary'
+
+    const arrowDirection = (state: boolean) =>
+      state ? 'va-arrow-up' : 'va-arrow-down'
 
     watch(() => route.fullPath, setActiveExpand, { immediate: true })
 
@@ -107,7 +120,7 @@ export default defineComponent({
       value,
       color,
       activeColor,
-      navigationRoutes,
+      navigationRoutes: navigationRoutes.value,
       routeHasActiveChild,
       isActiveChildRoute,
       t,

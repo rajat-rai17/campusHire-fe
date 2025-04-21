@@ -29,7 +29,14 @@ import { useColors } from 'vuestic-ui'
 import VaIconMenuCollapsed from '../icons/VaIconMenuCollapsed.vue'
 import { storeToRefs } from 'pinia'
 import { useGlobalStore } from '../../stores/global-store'
-import NavigationRoutes from '../sidebar/NavigationRoutes'
+import { adminRoutes, studentRoutes } from '../sidebar/NavigationRoutes'
+
+const userType = JSON.parse(localStorage.getItem('user') || '{}')?.type
+
+const navigationRoutes = computed(() => {
+  return userType === 'admin' ? adminRoutes : studentRoutes
+})
+
 
 const { isSidebarMinimized } = storeToRefs(useGlobalStore())
 
@@ -59,8 +66,9 @@ const findRouteName = (name: string) => {
     return ''
   }
 
-  return traverse(NavigationRoutes.routes)
+  return traverse(navigationRoutes.value)
 }
+
 
 const items = computed(() => {
   const result: { label: string; to: string; hasChildren: boolean }[] = []

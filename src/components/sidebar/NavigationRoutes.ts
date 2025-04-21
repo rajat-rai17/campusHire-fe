@@ -1,142 +1,67 @@
 export interface INavigationRoute {
   name: string
   displayName: string
-  meta: { icon: string }
+  meta: {
+    icon: string
+  }
   children?: INavigationRoute[]
 }
 
-export default {
-  root: {
-    name: '/',
-    displayName: 'navigationRoutes.home',
+// Admin-only routes
+const adminRoutes: INavigationRoute[] = [
+  {
+    name: 'dashboard',
+    displayName: 'menu.dashboard',
+    meta: {
+      icon: 'vuestic-iconset-dashboard',
+    },
   },
-  routes: [
-    {
-      name: 'dashboard',
-      displayName: 'menu.dashboard',
-      meta: {
-        icon: 'vuestic-iconset-dashboard',
-      },
+  {
+    name: 'students',
+    displayName: 'Students',
+    meta: {
+      icon: 'group',
     },
-    {
-      name: 'students',
-      displayName: 'Students',
-      meta: {
-        icon: 'group',
-      },
-    },
-{
-  name: 'company',
-      displayName: 'Company',
-  meta: {
-    icon: 'group',
   },
-},
-{
-  name: 'notice',
-      displayName: 'Notice',
-  meta: {
-    icon: 'group',
+  {
+    name: 'company',
+    displayName: 'Company',
+    meta: {
+      icon: 'group',
+    },
   },
-},
-{
-  name: 'studentNotice',
-      displayName: 'Student Notice',
-  meta: {
-    icon: 'group',
+  {
+    name: 'notice',
+    displayName: 'Notice',
+    meta: {
+      icon: 'group',
+    },
   },
-},
-    {
-      name: 'jobs',
-      displayName: 'Jobs',
-      meta: {
-        icon: 'group',
-      },
+  {
+    name: 'jobs',
+    displayName: 'Jobs',
+    meta: {
+      icon: 'group',
     },
-    {
-      name: 'users',
-      displayName: 'menu.users',
-      meta: {
-        icon: 'group',
-      },
-    },
-    {
-      name: 'projects',
-      displayName: 'menu.projects',
-      meta: {
-        icon: 'folder_shared',
-      },
-    },
-    {
-      name: 'payments',
-      displayName: 'menu.payments',
-      meta: {
-        icon: 'credit_card',
-      },
-      children: [
-        {
-          name: 'payment-methods',
-          displayName: 'menu.payment-methods',
-        },
-        {
-          name: 'pricing-plans',
-          displayName: 'menu.pricing-plans',
-        },
-        {
-          name: 'billing',
-          displayName: 'menu.billing',
-        },
-      ],
-    },
-    {
-      name: 'auth',
-      displayName: 'menu.auth',
-      meta: {
-        icon: 'login',
-      },
-      children: [
-        {
-          name: 'login',
-          displayName: 'menu.login',
-        },
-        {
-          name: 'signup',
-          displayName: 'menu.signup',
-        },
-        {
-          name: 'recover-password',
-          displayName: 'menu.recover-password',
-        },
-      ],
-    },
+  },
+]
 
-    {
-      name: 'faq',
-      displayName: 'menu.faq',
-      meta: {
-        icon: 'quiz',
-      },
+// Student-only routes
+const studentRoutes: INavigationRoute[] = [
+  {
+    name: 'dashboard',
+    displayName: 'menu.dashboard',
+    meta: {
+      icon: 'vuestic-iconset-dashboard',
     },
-    {
-      name: '404',
-      displayName: 'menu.404',
-      meta: {
-        icon: 'vuestic-iconset-files',
-      },
+  },
+  {
+    name: 'studentNotice',
+    displayName: 'Student Notice',
+    meta: {
+      icon: 'group',
     },
-    {
-      name: 'preferences',
-      displayName: 'menu.preferences',
-      meta: {
-        icon: 'manage_accounts',
-      },
-    },
-    {
-      name: 'settings',
-      displayName: 'menu.settings',
-      meta: {
-        icon: 'settings',
-      },
-    },
-  ] as INavigationRoute[],
-}
+  },
+]
+
+export { adminRoutes, studentRoutes }

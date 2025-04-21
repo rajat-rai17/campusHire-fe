@@ -49,6 +49,7 @@ import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useToast } from 'vuestic-ui'
 import { validators } from '../../services/utils'
+import axios from 'axios'
 
 const { validate } = useForm('form')
 const { push } = useRouter()
@@ -60,10 +61,25 @@ const formData = reactive({
   keepLoggedIn: false,
 })
 
-const submit = () => {
+const submit = async () => {
   if (validate()) {
-    init({ message: "You've successfully logged in", color: 'success' })
-    push({ name: 'dashboard' })
+    try {
+      const response = await axios.post('http://localhost:9321/auth/verifyUser', {
+        email: formData.email,
+        password: formData.password,
+      })
+      const { data: apiData } = response?.data || {}
+      if (apiData.status) {
+        localStorage.setItem('token', apiData.token);
+        localStorage.setItem('user', JSON.stringify(apiData.userData));
+        init({ message: "You've successfully logged in", color: 'success' })
+        push({ name: 'dashboard' })
+      }
+      else init({ message: "Invalid Email Id & Password", color: 'danger' })
+    } catch (error) {
+      console.error(error)
+      init({ message: "Invalid Email Id & Password", color: 'danger' })
+    } 
   }
 }
 </script>
