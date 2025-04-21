@@ -39,6 +39,13 @@ export default {
     icon: 'group',
   },
 },
+{
+  name: 'studentNotice',
+      displayName: 'Student Notice',
+  meta: {
+    icon: 'group',
+  },
+},
     {
       name: 'jobs',
       displayName: 'Jobs',
