@@ -6,10 +6,10 @@ import AppLayout from '../layouts/AppLayout.vue'
 import RouteViewComponent from '../layouts/RouterBypass.vue'
 
 const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    redirect: '/auth/login',
-  },
+  // {
+  //   path: '/',
+  //   redirect: '/auth/login',
+  // },
   {
     path: '/:pathMatch(.*)*',
     redirect: { name: 'login' },

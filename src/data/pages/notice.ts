@@ -5,18 +5,6 @@ import axios from 'axios'
 
 export const users = usersDb as unknown as Notice[]
 
-// const getUserProjects = (userId: number | string) => {
-//   return projectsDb
-//     .filter((project) => project.team.includes(Number(userId)))
-//     .map((project) => ({
-//       ...project,
-//       project_owner: users.find((user) => user.id === project.project_owner)!,
-//       team: project.team.map((userId) => users.find((user) => user.id === userId)!),
-//       status: project.status as Project['status'],
-//     }))
-// }
-
-// Simulate API calls
 
 export type Pagination = {
   page: number
@@ -66,9 +54,13 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 export const addNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
-    
+    const token = localStorage.getItem('token')
     const response = await axios.post('http://localhost:9321/notice/create', {
       ...notice
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     })
     const { data: apiData } = response.data
     return apiData

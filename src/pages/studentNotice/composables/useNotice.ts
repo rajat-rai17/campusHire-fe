@@ -24,7 +24,7 @@ export const useNotice = (options?: {
     let total = 0
     try {
       
-      const response = await axios.post('http://localhost:9321/notice/list', {
+      const response = await axios.post('http://localhost:9321/notice/studentNoticeList', {
         ...unref(filters),
         pagination: unref(pagination),
       })

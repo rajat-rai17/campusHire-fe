@@ -1,4 +1,5 @@
 <template>
+  <ChatBot v-if="isStudentUser" />
   <VaLayout
     :top="{ fixed: true, order: 2 }"
     :left="{ fixed: true, absolute: breakpoints.mdDown, order: 1, overlay: breakpoints.mdDown && !isSidebarMinimized }"
@@ -39,6 +40,10 @@ import { useGlobalStore } from '../stores/global-store'
 import AppLayoutNavigation from '../components/app-layout-navigation/AppLayoutNavigation.vue'
 import AppNavbar from '../components/navbar/AppNavbar.vue'
 import AppSidebar from '../components/sidebar/AppSidebar.vue'
+import ChatBot from '../components/ChatBot.vue'
+
+const user = JSON.parse(localStorage.getItem('user') || '{}')
+const isStudentUser = user?.type === 'student'
 
 const GlobalStore = useGlobalStore()
 

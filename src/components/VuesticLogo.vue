@@ -17,7 +17,7 @@ const props = withDefaults(
     logoSrc: string
   }>(),
   {
-    logoSrc: './public/logo.png', // Update with the actual path to your PNG file
+    logoSrc: '../public/logo.png', // Update with the actual path to your PNG file
   },
 )
 const finalHeight = 5

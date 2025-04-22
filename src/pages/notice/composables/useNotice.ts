@@ -1,5 +1,7 @@
 import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
+import axiosInstance from '../../../services/axiosInstance'
+
 import { getUsers, updateNotice, addNotice, type Filters, Pagination, Sorting, removeNotice, masterData } from '../../../data/pages/notice'
 import { Notice } from '../types'
 import { watchIgnorable } from '@vueuse/core'
@@ -24,10 +26,10 @@ export const useNotice = (options?: {
     let total = 0
     try {
       
-      const response = await axios.post('http://localhost:9321/notice/list', {
-        ...unref(filters),
-        pagination: unref(pagination),
-      })
+      const response = await axiosInstance.post('/notice/list', {
+          ...unref(filters),
+          pagination: unref(pagination),
+        })
       const { data: apiData } = response.data
       
       if (apiData?.status) {
