@@ -5,6 +5,8 @@ import EditUserForm from './widgets/EditUserForm.vue'
 import { Job } from './types'
 import { useJobs } from './composables/useJobs'
 import { useModal, useToast } from 'vuestic-ui'
+import axiosInstance from '../../services/axiosInstance'
+import { computed} from 'vue'
 
 const doShowEditUserModal = ref(false)
 
@@ -67,6 +69,55 @@ const editFormRef = ref()
 
 const { confirm } = useModal()
 
+const showViewModal = ref(false)
+const selectedJobDetails = ref<any[]>([])
+
+const downloadDocument = async (doc: any) => {
+  try {
+    const response = await axiosInstance.get(`student/downloadResume`, {
+      params: { studentId: doc.studentId }, // or doc.id if applicable
+      responseType: 'blob',
+    })
+
+    const blob = new Blob([response.data], { type: 'application/pdf' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${doc.name}.pdf`
+    link.click()
+    window.URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('Download failed', err)
+  }
+}
+
+const onViewUser = async (job: Job) => {
+  showViewModal.value = true
+  try {
+    const { data: apiResponse } = await axiosInstance.post('job/view', { jobId: job.jobId })
+
+    console.log("🚀 API Response:", apiResponse)
+
+    // ✅ Only check for statusCode === 200
+    if (apiResponse?.statusCode === 200 && Array.isArray(apiResponse.data)) {
+      selectedJobDetails.value = apiResponse.data
+    } else {
+      selectedJobDetails.value = []
+    }
+
+    console.log("🚀 Final selectedJobDetails:", selectedJobDetails.value)
+  } catch (err) {
+    console.error('Failed to load job details', err)
+    selectedJobDetails.value = []
+  }
+}
+
+
+
+const itemsInView = computed(() => {
+  return selectedJobDetails.value
+})
+
 </script>
 
 
@@ -94,6 +145,7 @@ const { confirm } = useModal()
         :pagination="pagination"
         @editUser="showEditUserModal"
         @deleteUser="onUserDelete"
+         @view-user="onViewUser"
       />
     </VaCardContent>
   </VaCard>
@@ -123,4 +175,35 @@ const { confirm } = useModal()
       "
     />
   </VaModal>
+
+
+  <VaModal
+  v-model="showViewModal"
+  size="medium"
+  hide-default-actions
+  close-button
+>
+  <h1 class="va-h5 mb-2">Applied Students</h1>
+
+
+  <div v-for="(item, index) in itemsInView" :key="item.studentId" class="mb-2">
+  <div class="flex items-center justify-between md:justify-items-stretch">
+    <div class="flex items-center w-48">
+      {{ new Date(item.createdAt).toLocaleString('en-IN') }}
+    </div>
+    <div class="w-20">
+      {{ item.name }}
+    </div>
+    <div>
+      <VaButton preset="primary"  @click="downloadDocument(item)">Download</VaButton>
+    </div>
+  </div>
+
+  <VaDivider v-if="index !== itemsInView.length - 1" />
+</div>
+
+</VaModal>
+
+
+
 </template>

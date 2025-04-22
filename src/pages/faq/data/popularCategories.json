@@ -1,56 +1,47 @@
 [
   {
     "id": 1,
-    "icon": "diversity_1",
-    "name": "Getting Started",
-    "intro": "Start using Service easily with our actionable tips."
+    "name": "Grooming Tips for a Job Interview",
+    "link": "https://www.youtube.com/watch?v=cgfoqSC83xc"
   },
   {
     "id": 2,
-    "icon": "check_box",
-    "name": "How-to Articles",
-    "intro": "Check out ready workflows tailored to your needs."
+    "name": "How to Dress for a College Interview",
+    "link": "https://www.youtube.com/watch?v=i8we60adG1s"
   },
   {
     "id": 3,
-    "icon": "tv_signin",
-    "name": "Billing and Account",
-    "intro": "Adjust your subscription and limits to your liking."
+    "name": "Personal Grooming for Office and Job Interviews",
+    "link": "https://www.youtube.com/watch?v=3mVrWQF4R8Q"
   },
   {
     "id": 4,
-    "icon": "page_info",
-    "name": "SEO",
-    "intro": "Increase traffic and boost search rankings with the help of 20+ tools."
+    "name": "How to Prepare for an Interview: A Step-by-Step Student Guide",
+    "link": "https://www.youtube.com/watch?v=V-5aVLDUtmk"
   },
   {
     "id": 5,
-    "icon": "currency_exchange",
-    "name": "Advertising",
-    "intro": "Research your competitors' advertising campaigns and launch your own."
+    "name": "Last-Minute Interview Prep",
+    "link": "https://www.youtube.com/watch?v=6bJTEZnTT5A"
   },
   {
     "id": 6,
-    "icon": "feed",
-    "name": "Social Media",
-    "intro": "Schedule, post, and track performance across all key social platforms."
+    "name": "Mock Interview Simulation and Training",
+    "link": "https://www.youtube.com/watch?v=srw4r3htm4U&t=737s"
   },
   {
     "id": 7,
-    "icon": "content_paste_go",
-    "name": "Content Marketing",
-    "intro": "Create a content plan, find gaps, and research, write and audit content."
+    "name": "Behavioral Mock Interview (Jobs and Internships)",
+    "link": "https://www.youtube.com/watch?v=sjTxmq68RXU"
   },
   {
     "id": 8,
-    "icon": "chart_data",
-    "name": "Trends",
-    "intro": "Analyze the market, benchmark against competitors,and follow emerging trends."
+    "name": "Mock Interview Questions & Answers",
+    "link": "https://www.youtube.com/watch?v=T1vTofBM_uA"
   },
   {
     "id": 9,
-    "icon": "manage_accounts",
-    "name": "Management",
-    "intro": "Keep all your marketing plans and activities under control. Automate reporting."
+    "name": "How to Ace an Entry-Level Interview",
+    "link": "https://www.youtube.com/watch?v=0MprWWQILbc"
   }
 ]

@@ -56,13 +56,6 @@ const studentRoutes: INavigationRoute[] = [
     },
   },
   {
-    name: 'studentNotice',
-    displayName: 'Notice',
-    meta: {
-      icon: 'group',
-    },
-  },
-  {
     name: 'studentJobs',
     displayName: 'Jobs',
     meta: {
@@ -70,8 +63,22 @@ const studentRoutes: INavigationRoute[] = [
     },
   },
   {
+    name: 'faq',
+    displayName: 'Learning',
+    meta: {
+      icon: 'quiz',
+    },
+  },
+  {
+    name: 'studentNotice',
+    displayName: 'Notice',
+    meta: {
+      icon: 'group',
+    },
+  },
+  {
     name: 'preferences',
-    displayName: 'Preferences',
+    displayName: 'Account Settings',
     meta: {
       icon: 'group',
     },

@@ -1,9 +1,6 @@
 <template>
-  <h1 class="page-title">How can we help you?</h1>
+  <h1 class="page-title">Learning</h1>
   <Categories />
-  <RequestDemo />
-  <Questions />
-  <Navigation />
 </template>
 
 <script setup>

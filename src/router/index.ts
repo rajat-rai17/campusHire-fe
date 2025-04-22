@@ -108,7 +108,12 @@ const routes: Array<RouteRecordRaw> = [
         path: 'company',
         component: () => import('../pages/company/CompanyPage.vue'),
         meta: { requiresAuth: true, adminOnly: true },
-      }
+      },
+      {
+        name: 'faq',
+        path: '/faq',
+        component: () => import('../pages/faq/FaqPage.vue'),
+      },
     ],
   },
   

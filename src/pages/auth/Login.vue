@@ -27,11 +27,11 @@
       </VaInput>
     </VaValue>
 
-    <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
+    <!-- <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
       <RouterLink :to="{ name: 'recover-password' }" class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-primary">
         Forgot password?
       </RouterLink>
-    </div>
+    </div> -->
 
     <div class="flex justify-center mt-4">
       <VaButton class="w-full" @click="submit"> Login</VaButton>

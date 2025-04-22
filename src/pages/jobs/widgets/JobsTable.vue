@@ -33,6 +33,7 @@ const props = defineProps({
 const emit = defineEmits<{
   (event: 'edit-user', user: Job): void
   (event: 'delete-user', user: Job): void
+  (event: 'view-user', user: Job): void 
   (event: 'update:sortBy', sortBy: Sorting['sortBy']): void
   (event: 'update:sortingOrder', sortingOrder: Sorting['sortingOrder']): void
 }>()
@@ -114,6 +115,14 @@ const onUserDelete = async (job: Job) => {
 
     <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
+        <VaButton
+      preset="primary"
+      size="small"
+      icon="mso-visibility"
+      color="info"
+      aria-label="View Job"
+      @click="$emit('view-user', rowData as Job)"
+    />
         <!-- <VaButton
           preset="primary"
           size="small"
