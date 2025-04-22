@@ -62,6 +62,13 @@ const studentRoutes: INavigationRoute[] = [
       icon: 'group',
     },
   },
+  {
+    name: 'studentJobs',
+    displayName: 'Jobs',
+    meta: {
+      icon: 'group',
+    },
+  },
 ]
 
 export { adminRoutes, studentRoutes }

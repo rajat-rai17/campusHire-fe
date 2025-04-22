@@ -2,6 +2,7 @@ import { sleep } from '../../services/utils'
 import { Job } from '../../pages/jobs/types'
 import usersDb from './jobs-db.json'
 import axios from 'axios'
+import axiosInstance from '../../services/axiosInstance'
 
 export const users = usersDb as unknown as Job[]
 
@@ -30,7 +31,8 @@ export type Sorting = {
 }
 
 export type Filters = {
-  isActive: boolean
+  isActive: boolean,
+  isApplied: boolean,
   search: string  
 }
 
@@ -115,6 +117,22 @@ export const masterData = async (dataRequired: any) => {
       dataRequired
     })
     return  response.data
+  } catch (error) {
+    console.error(error)
+  }
+  
+}
+
+
+export const applyJob = async (job: Job) => {
+  const { jobId } = job
+  try {
+    job.jobId = +job.jobId
+    const response = await axiosInstance.post('job/applyJob', {
+    jobId
+    })
+    const { data: apiData } = response.data
+    return apiData
   } catch (error) {
     console.error(error)
   }
