@@ -57,7 +57,7 @@ const studentRoutes: INavigationRoute[] = [
   },
   {
     name: 'studentNotice',
-    displayName: 'Student Notice',
+    displayName: 'Notice',
     meta: {
       icon: 'group',
     },

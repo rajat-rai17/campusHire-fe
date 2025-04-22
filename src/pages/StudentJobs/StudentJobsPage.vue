@@ -7,9 +7,6 @@ import { useModal, useToast } from 'vuestic-ui'
 
 
 const { users, isLoading, filters, sorting, pagination, ...usersApi } = useJobs()
-const userToEdit = ref<Job | null>(null)
-  const programData = ref([]);   // Store program data
-  const companyData = ref([]);   // Store company data
 
 
 const { init: notify } = useToast()
@@ -17,16 +14,16 @@ const { init: notify } = useToast()
 
 
 const onUserApplied = async (job: Job) => {
-  await usersApi.remove(job)
+  await usersApi.applyJob(job)
+  filters.value.isApplied = true // ✅ Toggle to "Applied"
+  await usersApi.fetch()   // ✅ Fetch applied jobs only
+  await usersApi.fetch()
   notify({
     message: `${job.title} has been applied`,
     color: 'success',
   })
 }
 
-const editFormRef = ref()
-
-const { confirm } = useModal()
 
 </script>
 
@@ -44,7 +41,7 @@ const { confirm } = useModal()
             border-color="background-element"
             :options="[
               { label: 'Active', value: false },
-              { label: 'Inactive', value: true },
+              { label: 'Applied', value: true },
             ]"
           />
           <VaInput v-model="filters.search" placeholder="Search">
@@ -61,6 +58,7 @@ const { confirm } = useModal()
         :users="users"
         :loading="isLoading"
         :pagination="pagination"
+        :filters="filters"
         @deleteUser="onUserApplied"
       />
     </VaCardContent>

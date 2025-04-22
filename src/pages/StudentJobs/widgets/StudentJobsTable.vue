@@ -28,6 +28,7 @@ const props = defineProps({
   pagination: { type: Object as PropType<Pagination>, required: true },
   sortBy: { type: String as PropType<Sorting['sortBy']>, required: true },
   sortingOrder: { type: String as PropType<Sorting['sortingOrder']>, required: true },
+    filters: { type: Object as PropType<{ isApplied: boolean }>, required: true }, 
 })
 
 const emit = defineEmits<{
@@ -48,14 +49,13 @@ const roleColors: Record<UserRole, string> = {
 }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
-console.log("🚀 ~ props.pagination.total:", props.pagination)
 const { confirm } = useModal()
 
-const onUserDelete = async (job: Job) => {
+const onJobApplied = async (job: Job) => {
   const agreed = await confirm({
-    title: 'Delete Job',
-    message: `Are you sure you want to delete ${job.title}?`,
-    okText: 'Delete',
+    title: 'Apply Job',
+    message: `Are you sure you want to apply for ${job.title}?`,
+    okText: 'Apply',
     cancelText: 'Cancel',
     size: 'small',
     maxWidth: '380px',
@@ -115,20 +115,12 @@ const onUserDelete = async (job: Job) => {
     <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
         <VaButton
+        v-if="!props.filters.isApplied"
           preset="primary"
           size="small"
-          icon="mso-edit"
-          aria-label="Edit user"
-          @click="$emit('edit-user', rowData as Job)"
-        />
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-delete"
-          color="danger"
-          aria-label="Delete user"
-          @click="onUserDelete(rowData as Job)"
-        />
+          aria-label="Apply Job"
+          @click="onJobApplied(rowData as Job)"
+        >Apply</VaButton>
       </div>
     </template>
   </VaDataTable>

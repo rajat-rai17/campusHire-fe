@@ -38,7 +38,7 @@ export const useJobs = (options?: {
   
     try {
       
-      const response = await axiosInstance.post('job/list', {
+      const response = await axiosInstance.post('job/studentListJob', {
         ...unref(filters),
         pagination: unref(pagination),
         ...(isApplied && { isApplied }),
