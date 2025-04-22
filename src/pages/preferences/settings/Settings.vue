@@ -3,64 +3,48 @@
     <p class="font-bold w-[200px]">Name</p>
     <div class="flex-1">
       <div class="max-w-[748px]">
-        {{ store.userName }}
+        {{ userName }}
       </div>
     </div>
-    <VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" @click="emits('openNameModal')">
-      Edit
-    </VaButton>
   </div>
   <VaDivider />
   <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
     <p class="font-bold w-[200px]">Email</p>
     <div class="flex-1">
       <div class="max-w-[748px]">
-        {{ store.email }}
+        {{ email }}
       </div>
     </div>
-  </div>
-  <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
-    <p class="font-bold w-[200px]">Password</p>
-    <div class="flex-1">
-      <div class="max-w-[748px]">•••••••••••••</div>
-    </div>
-    <VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" @click="emits('openResetPasswordModal')">
-      Reset Password
-    </VaButton>
   </div>
   <VaDivider />
   <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
-    <p class="font-bold w-[200px]">Two-factor authentication</p>
-    <div class="flex-1">
-      <div class="max-w-[748px]">
-        {{ twoFA.content }}
-      </div>
-    </div>
-    <VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" :color="twoFA.color" @click="toggle2FA">
-      {{ twoFA.button }}
+    <p class="font-bold w-[200px]">Resume</p>
+    <VaButton
+  :style="buttonStyles"
+  class="mb-4 md:mb-0"
+  preset="secondary"
+  color="primary"
+  @click="downloadResume"
+>
+  Download Resume
+</VaButton>
+<VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" @click="emits('openResetPasswordModal')">
+      Upload Resume
     </VaButton>
+    
   </div>
   <VaDivider />
-  <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
-    <p class="font-bold w-[200px]">Email subscriptions</p>
-    <div class="flex-1">
-      <div class="max-w-[748px]">
-        <p>To manage what emails you get, visit the</p>
-        <div class="flex space-x-1 w-fit">
-          <RouterLink :to="{ name: 'settings' }" class="font-semibold text-primary">Notification settings</RouterLink>
-        </div>
-      </div>
-    </div>
-  </div>
 </template>
 <script lang="ts" setup>
 import { computed } from 'vue'
+import { ref } from 'vue'
 
 import { useToast } from 'vuestic-ui/web-components'
 
 import { useUserStore } from '../../../stores/user-store'
 
 import { buttonStyles } from '../styles'
+import axiosInstance from '../../../services/axiosInstance'
 
 const store = useUserStore()
 
@@ -90,6 +74,28 @@ const toggle2FA = () => {
   store.toggle2FA()
   init({ message: toastMessage.value, color: 'success' })
 }
+const downloadResume = async () => {
+  try {
+    const response = await axiosInstance.get('student/getResume', {
+      responseType: 'blob', // Important to get binary data
+    })
 
+    const blob = new Blob([response.data], { type: 'application/pdf' })
+    const link = document.createElement('a')
+    link.href = window.URL.createObjectURL(blob)
+    link.download = 'resume.pdf'
+    link.click()
+    window.URL.revokeObjectURL(link.href)
+  } catch (err) {
+    console.error('Failed to download resume:', err)
+    init({ message: 'Failed to download resume', color: 'danger' })
+  }
+}
+
+
+const userRaw = localStorage.getItem('user')
+const user = userRaw ? JSON.parse(userRaw) : null
+const userName = ref(user?.name || 'Guest')
+const email = ref(user?.email || 'Guest')
 const emits = defineEmits(['openNameModal', 'openResetPasswordModal'])
 </script>

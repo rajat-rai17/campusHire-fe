@@ -8,7 +8,7 @@
       <Settings @openNameModal="isEditNameModalOpen = true" @openResetPasswordModal="isResetPasswordModalOpen = true" />
     </div>
   </div>
-  <EditNameModal v-if="isEditNameModalOpen" @cancel="isEditNameModalOpen = false" />
+  <!-- <EditNameModal v-if="isEditNameModalOpen" @cancel="isEditNameModalOpen = false" /> -->
   <ResetPasswordModal v-if="isResetPasswordModalOpen" @cancel="isResetPasswordModalOpen = false" />
 </template>
 <script lang="ts" setup>

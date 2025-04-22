@@ -69,6 +69,13 @@ const studentRoutes: INavigationRoute[] = [
       icon: 'group',
     },
   },
+  {
+    name: 'preferences',
+    displayName: 'Preferences',
+    meta: {
+      icon: 'group',
+    },
+  }
 ]
 
 export { adminRoutes, studentRoutes }

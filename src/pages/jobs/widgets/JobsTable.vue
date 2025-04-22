@@ -114,13 +114,13 @@ const onUserDelete = async (job: Job) => {
 
     <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
-        <VaButton
+        <!-- <VaButton
           preset="primary"
           size="small"
           icon="mso-edit"
           aria-label="Edit user"
           @click="$emit('edit-user', rowData as Job)"
-        />
+        /> -->
         <VaButton
           preset="primary"
           size="small"

@@ -81,6 +81,18 @@ const routes: Array<RouteRecordRaw> = [
         meta: { requiresAuth: true, studentOnly: true },
       },
       {
+        name: 'preferences',
+        path: 'preferences',
+        component: () => import('../pages/preferences/Preferences.vue'),
+        meta: { requiresAuth: true, studentOnly: true },
+      },
+      {
+        name: 'settings',
+        path: 'settings',
+        component: () => import('../pages/settings/Settings.vue'),
+        meta: { requiresAuth: true, studentOnly: true },
+      },
+      {
         name: 'studentJobs',
         path: 'studentJobs',
         component: () => import('../pages/studentJobs/StudentJobsPage.vue'),

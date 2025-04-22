@@ -94,13 +94,6 @@ const onUserDelete = async (notice: Notice) => {
         <VaButton
           preset="primary"
           size="small"
-          icon="mso-edit"
-          aria-label="Edit user"
-          @click="$emit('edit-user', rowData as Notice)"
-        />
-        <VaButton
-          preset="primary"
-          size="small"
           icon="mso-delete"
           color="danger"
           aria-label="Delete user"
