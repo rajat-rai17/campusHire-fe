@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import axiosInstance from '../services/axiosInstance'
+
 export default {
   name: 'ChatBot',
   data() {
@@ -71,34 +73,14 @@ export default {
       this.isLoading = true
 
       try {
-        const response = await fetch(
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyB3oYmnUf1M3LsnhMS2RuRLS_tz_FUqAJY',
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: userMessage }] }],
-            }),
-          },
-        )
+        const { data } = await axiosInstance.post('/chatbot/ask', { message: userMessage })
+        const reply = data?.data?.reply
 
-        const data = await response.json()
-
-        if (data?.candidates?.length > 0) {
-          const candidate = data.candidates[0]
-
-          const formattedResponse = {
-            sender: 'bot',
-            text:
-              candidate.content?.parts
-                ?.map((part) => part.text.replace(/\*/g, '').trim()) // Remove asterisks
-                .join('\n') || 'No content available',
-          }
-
-          this.messages.push(formattedResponse)
+        if (reply) {
+          this.messages.push({ text: reply, sender: 'bot' })
         } else {
-          console.error('No valid response from Gemini', JSON.stringify(data, null, 2))
-          throw new Error('No response from Gemini')
+          console.error('No valid response from chatbot', JSON.stringify(data, null, 2))
+          throw new Error('No response from chatbot')
         }
       } catch (error) {
         console.error('Chatbot error:', error)
