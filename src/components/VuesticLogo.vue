@@ -1,25 +1,18 @@
 <template>
-  <img
-    :src="logoSrc"
-    :height="finalHeight"
-    :width="finalWidth"
-    alt="Campus Hire Logo"
-    style="object-fit: contain;"
-  />
+  <img :src="logoSrc" :style="{ height: height + 'px', width: 'auto', objectFit: 'contain' }" alt="Logo" />
 </template>
 
 <script lang="ts" setup>
 import { withDefaults, defineProps } from 'vue'
-import { computed } from 'vue'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    logoSrc: string
+    logoSrc?: string
+    height?: number
   }>(),
   {
-    logoSrc: '../public/logo.png', // Update with the actual path to your PNG file
+    logoSrc: '/logo.svg',
+    height: 32,
   },
 )
-const finalHeight = 5
-const finalWidth = computed(() => (finalHeight * 478) / 57)
 </script>
