@@ -67,7 +67,7 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 export const addJob = async (job: Job) => {
   try {
     job.jobId = +job.jobId
-    const response = await axios.post('http://localhost:9321/job/create', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/job/create`, {
       ...job,
     })
     const { data: apiData } = response.data
@@ -82,7 +82,7 @@ export const updateJob = async (job: Job) => {
   try {
     job.jobId = +job.jobId
 
-    const response = await axios.post('http://localhost:9321/job/update', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/job/update`, {
       ...job,
     })
     const { data: apiData } = response.data
@@ -97,7 +97,7 @@ export const removeJob = async (job: Job) => {
   const { jobId } = job
   try {
     job.jobId = +job.jobId
-    const response = await axios.post('http://localhost:9321/job/remove', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/job/remove`, {
       jobId,
     })
     const { data: apiData } = response.data
@@ -109,7 +109,7 @@ export const removeJob = async (job: Job) => {
 
 export const masterData = async (dataRequired: any) => {
   try {
-    const response = await axios.post('http://localhost:9321/job/masterData', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/job/masterData`, {
       dataRequired,
     })
     return response.data

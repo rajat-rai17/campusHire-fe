@@ -34,43 +34,43 @@ const avatarColor = (userName: string) => {
     <VaCardContent>
       <div v-if="projects.length > 0">
         <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-          v-model:sort-by="sorting.sortBy"
-          v-model:sorting-order="sorting.sortingOrder"
-          :items="projects"
-          :columns="columns"
-          :loading="isLoading"
-        >
-          <template #cell(project_name)="{ rowData }">
-            <div class="ellipsis max-w-[230px] lg:max-w-[450px]">
-              {{ rowData.project_name }}
-            </div>
-          </template>
-          <template #cell(project_owner)="{ rowData }">
-            <div class="flex items-center gap-2 ellipsis max-w-[230px]">
-              <UserAvatar :user="rowData.project_owner" size="small" />
-              {{ rowData.project_owner.fullname }}
-            </div>
-          </template>
-          <template #cell(team)="{ rowData: project }">
-            <VaAvatarGroup
-              size="small"
-              :options="
-                (project as Project).team.map((user) => ({
-                  label: user.fullname,
-                  src: user.avatar,
-                  fallbackText: user.fullname[0],
-                  color: avatarColor(user.fullname),
-                }))
-              "
-              :max="2"
-            />
-          </template>
-          <template #cell(status)="{ rowData: project }">
-            <ProjectStatusBadge :status="project.status" />
-          </template>
-        </VaDataTable>
-  </div>
+          <VaDataTable
+            v-model:sort-by="sorting.sortBy"
+            v-model:sorting-order="sorting.sortingOrder"
+            :items="projects"
+            :columns="columns"
+            :loading="isLoading"
+          >
+            <template #cell(project_name)="{ rowData }">
+              <div class="ellipsis max-w-[230px] lg:max-w-[450px]">
+                {{ rowData.project_name }}
+              </div>
+            </template>
+            <template #cell(project_owner)="{ rowData }">
+              <div class="flex items-center gap-2 ellipsis max-w-[230px]">
+                <UserAvatar :user="rowData.project_owner" size="small" />
+                {{ rowData.project_owner.fullname }}
+              </div>
+            </template>
+            <template #cell(team)="{ rowData: project }">
+              <VaAvatarGroup
+                size="small"
+                :options="
+                  (project as Project).team.map((user) => ({
+                    label: user.fullname,
+                    src: user.avatar,
+                    fallbackText: user.fullname[0],
+                    color: avatarColor(user.fullname),
+                  }))
+                "
+                :max="2"
+              />
+            </template>
+            <template #cell(status)="{ rowData: project }">
+              <ProjectStatusBadge :status="project.status" />
+            </template>
+          </VaDataTable>
+        </div>
       </div>
       <div v-else class="p-4 flex justify-center items-center text-[var(--va-secondary)]">No projects</div>
     </VaCardContent>

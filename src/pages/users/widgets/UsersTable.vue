@@ -85,62 +85,62 @@ const formatProjectNames = (projects: Project[]) => {
 
 <template>
   <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-    v-model:sort-by="sortByVModel"
-    v-model:sorting-order="sortingOrderVModel"
-    :columns="columns"
-    :items="users"
-    :loading="$props.loading"
-  >
-    <template #cell(fullname)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        <UserAvatar :user="rowData as User" size="small" />
-        {{ rowData.fullname }}
-      </div>
-    </template>
+    <VaDataTable
+      v-model:sort-by="sortByVModel"
+      v-model:sorting-order="sortingOrderVModel"
+      :columns="columns"
+      :items="users"
+      :loading="$props.loading"
+    >
+      <template #cell(fullname)="{ rowData }">
+        <div class="flex items-center gap-2 max-w-[230px] ellipsis">
+          <UserAvatar :user="rowData as User" size="small" />
+          {{ rowData.fullname }}
+        </div>
+      </template>
 
-    <template #cell(username)="{ rowData }">
-      <div class="max-w-[120px] ellipsis">
-        {{ rowData.username }}
-      </div>
-    </template>
+      <template #cell(username)="{ rowData }">
+        <div class="max-w-[120px] ellipsis">
+          {{ rowData.username }}
+        </div>
+      </template>
 
-    <template #cell(email)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.email }}
-      </div>
-    </template>
+      <template #cell(email)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.email }}
+        </div>
+      </template>
 
-    <template #cell(role)="{ rowData }">
-      <VaBadge :text="rowData.role" :color="roleColors[rowData.role as UserRole]" />
-    </template>
+      <template #cell(role)="{ rowData }">
+        <VaBadge :text="rowData.role" :color="roleColors[rowData.role as UserRole]" />
+      </template>
 
-    <template #cell(projects)="{ rowData }">
-      <div class="ellipsis max-w-[300px] lg:max-w-[450px]">
-        {{ formatProjectNames(rowData.projects) }}
-      </div>
-    </template>
+      <template #cell(projects)="{ rowData }">
+        <div class="ellipsis max-w-[300px] lg:max-w-[450px]">
+          {{ formatProjectNames(rowData.projects) }}
+        </div>
+      </template>
 
-    <template #cell(actions)="{ rowData }">
-      <div class="flex gap-2 justify-end">
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-edit"
-          aria-label="Edit user"
-          @click="$emit('edit-user', rowData as User)"
-        />
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-delete"
-          color="danger"
-          aria-label="Delete user"
-          @click="onUserDelete(rowData as User)"
-        />
-      </div>
-    </template>
-  </VaDataTable>
+      <template #cell(actions)="{ rowData }">
+        <div class="flex gap-2 justify-end">
+          <VaButton
+            preset="primary"
+            size="small"
+            icon="mso-edit"
+            aria-label="Edit user"
+            @click="$emit('edit-user', rowData as User)"
+          />
+          <VaButton
+            preset="primary"
+            size="small"
+            icon="mso-delete"
+            color="danger"
+            aria-label="Delete user"
+            @click="onUserDelete(rowData as User)"
+          />
+        </div>
+      </template>
+    </VaDataTable>
   </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">

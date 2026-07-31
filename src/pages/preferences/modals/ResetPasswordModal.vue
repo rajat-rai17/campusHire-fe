@@ -95,7 +95,9 @@ const submit = async () => {
 
     init({ message: 'Resume uploaded successfully', color: 'success' })
     emits('cancel')
-    setTimeout(() => { window.location.reload() }, 500)
+    setTimeout(() => {
+      window.location.reload()
+    }, 500)
   } catch (error) {
     console.error(error)
     init({ message: 'Failed to upload resume', color: 'danger' })

@@ -69,62 +69,62 @@ const onJobApplied = async (job: Job) => {
 
 <template>
   <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-    v-model:sort-by="sortByVModel"
-    v-model:sorting-order="sortingOrderVModel"
-    :columns="columns"
-    :items="users"
-    :loading="$props.loading"
-  >
-    <template #cell(jobId)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        {{ rowData.jobId }}
-      </div>
-    </template>
+    <VaDataTable
+      v-model:sort-by="sortByVModel"
+      v-model:sorting-order="sortingOrderVModel"
+      :columns="columns"
+      :items="users"
+      :loading="$props.loading"
+    >
+      <template #cell(jobId)="{ rowData }">
+        <div class="flex items-center gap-2 max-w-[230px] ellipsis">
+          {{ rowData.jobId }}
+        </div>
+      </template>
 
-    <template #cell(title)="{ rowData }">
-      <div class="max-w-[120px] ellipsis">
-        {{ rowData.title }}
-      </div>
-    </template>
+      <template #cell(title)="{ rowData }">
+        <div class="max-w-[120px] ellipsis">
+          {{ rowData.title }}
+        </div>
+      </template>
 
-    <template #cell(workMode)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.type }}
-      </div>
-    </template>
+      <template #cell(workMode)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.type }}
+        </div>
+      </template>
 
-    <template #cell(interviewDate)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.interviewDate }}
-      </div>
-    </template>
+      <template #cell(interviewDate)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.interviewDate }}
+        </div>
+      </template>
 
-    <template #cell(companyName)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.companyName }}
-      </div>
-    </template>
+      <template #cell(companyName)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.companyName }}
+        </div>
+      </template>
 
-    <template #cell(programName)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.programName }}
-      </div>
-    </template>
+      <template #cell(programName)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.programName }}
+        </div>
+      </template>
 
-    <template #cell(actions)="{ rowData }">
-      <div class="flex gap-2 justify-end">
-        <VaButton
-          v-if="!props.filters.isApplied"
-          preset="primary"
-          size="small"
-          aria-label="Apply Job"
-          @click="onJobApplied(rowData as Job)"
-          >Apply</VaButton
-        >
-      </div>
-    </template>
-  </VaDataTable>
+      <template #cell(actions)="{ rowData }">
+        <div class="flex gap-2 justify-end">
+          <VaButton
+            v-if="!props.filters.isApplied"
+            preset="primary"
+            size="small"
+            aria-label="Apply Job"
+            @click="onJobApplied(rowData as Job)"
+            >Apply</VaButton
+          >
+        </div>
+      </template>
+    </VaDataTable>
   </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">

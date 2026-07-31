@@ -64,7 +64,7 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 export const addCompany = async (company: Company) => {
   try {
-    const response = await axios.post('http://localhost:9321/company/create', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/company/create`, {
       ...company,
     })
     const { data: apiData } = response.data
@@ -79,7 +79,7 @@ export const updateCompany = async (company: Company) => {
   try {
     company.companyId = +company.companyId
 
-    const response = await axios.post('http://localhost:9321/company/update', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/company/update`, {
       ...company,
     })
     const { data: apiData } = response.data
@@ -94,7 +94,7 @@ export const removeCompany = async (company: Company) => {
   const { companyId } = company
   try {
     company.companyId = +company.companyId
-    const response = await axios.post('http://localhost:9321/company/remove', {
+    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/company/remove`, {
       companyId,
     })
     const { data: apiData } = response.data

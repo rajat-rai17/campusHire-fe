@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // Create an instance
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:9321',
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:9321',
 })
 
 // Request Interceptor to attach token

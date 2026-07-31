@@ -1,9 +1,7 @@
 <template>
   <VaForm ref="resetForm" @submit.prevent="submit">
     <h1 class="font-semibold text-4xl mb-4">Set New Password</h1>
-    <p class="text-base mb-4 leading-5">
-      Please enter your new password below.
-    </p>
+    <p class="text-base mb-4 leading-5">Please enter your new password below.</p>
 
     <VaValue v-slot="isPasswordVisible" :default-value="false">
       <VaInput
@@ -62,18 +60,18 @@ const { init: notify } = useToast()
 
 const passwordRules = [
   (v: string) => !!v || 'Password field is required',
-  (v: string) => v.length >= 6 || 'Password must be at least 6 characters'
+  (v: string) => v.length >= 6 || 'Password must be at least 6 characters',
 ]
 
 const confirmPasswordRules = [
   (v: string) => !!v || 'Confirm password field is required',
-  (v: string) => v === newPassword.value || 'Passwords do not match'
+  (v: string) => v === newPassword.value || 'Passwords do not match',
 ]
 
 const submit = async () => {
   if (form.validate()) {
     const token = route.query.token as string
-    
+
     if (!token) {
       notify({ message: 'Invalid or missing reset token', color: 'danger' })
       return
@@ -82,10 +80,10 @@ const submit = async () => {
     try {
       const response = await axiosInstance.post('/auth/resetPassword', {
         token,
-        newPassword: newPassword.value
+        newPassword: newPassword.value,
       })
-      
-      const { statusCode, message } = response.data;
+
+      const { statusCode, message } = response.data
       if (statusCode === 200) {
         notify({
           message: message || 'Password has been reset successfully',

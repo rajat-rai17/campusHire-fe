@@ -70,77 +70,77 @@ const onUserDelete = async (job: Job) => {
 
 <template>
   <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-    v-model:sort-by="sortByVModel"
-    v-model:sorting-order="sortingOrderVModel"
-    :columns="columns"
-    :items="users"
-    :loading="$props.loading"
-  >
-    <template #cell(jobId)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        {{ rowData.jobId }}
-      </div>
-    </template>
+    <VaDataTable
+      v-model:sort-by="sortByVModel"
+      v-model:sorting-order="sortingOrderVModel"
+      :columns="columns"
+      :items="users"
+      :loading="$props.loading"
+    >
+      <template #cell(jobId)="{ rowData }">
+        <div class="flex items-center gap-2 max-w-[230px] ellipsis">
+          {{ rowData.jobId }}
+        </div>
+      </template>
 
-    <template #cell(title)="{ rowData }">
-      <div class="max-w-[120px] ellipsis">
-        {{ rowData.title }}
-      </div>
-    </template>
+      <template #cell(title)="{ rowData }">
+        <div class="max-w-[120px] ellipsis">
+          {{ rowData.title }}
+        </div>
+      </template>
 
-    <template #cell(workMode)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.type }}
-      </div>
-    </template>
+      <template #cell(workMode)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.type }}
+        </div>
+      </template>
 
-    <template #cell(interviewDate)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.interviewDate }}
-      </div>
-    </template>
+      <template #cell(interviewDate)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.interviewDate }}
+        </div>
+      </template>
 
-    <template #cell(companyName)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.companyName }}
-      </div>
-    </template>
+      <template #cell(companyName)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.companyName }}
+        </div>
+      </template>
 
-    <template #cell(programName)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.programName }}
-      </div>
-    </template>
+      <template #cell(programName)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.programName }}
+        </div>
+      </template>
 
-    <template #cell(actions)="{ rowData }">
-      <div class="flex gap-2 justify-end">
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-visibility"
-          color="info"
-          aria-label="View Job"
-          @click="$emit('view-user', rowData as Job)"
-        />
-        <!-- <VaButton
+      <template #cell(actions)="{ rowData }">
+        <div class="flex gap-2 justify-end">
+          <VaButton
+            preset="primary"
+            size="small"
+            icon="mso-visibility"
+            color="info"
+            aria-label="View Job"
+            @click="$emit('view-user', rowData as Job)"
+          />
+          <!-- <VaButton
           preset="primary"
           size="small"
           icon="mso-edit"
           aria-label="Edit user"
           @click="$emit('edit-user', rowData as Job)"
         /> -->
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-delete"
-          color="danger"
-          aria-label="Delete user"
-          @click="onUserDelete(rowData as Job)"
-        />
-      </div>
-    </template>
-  </VaDataTable>
+          <VaButton
+            preset="primary"
+            size="small"
+            icon="mso-delete"
+            color="danger"
+            aria-label="Delete user"
+            @click="onUserDelete(rowData as Job)"
+          />
+        </div>
+      </template>
+    </VaDataTable>
   </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">

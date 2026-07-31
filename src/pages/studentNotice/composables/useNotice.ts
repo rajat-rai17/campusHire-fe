@@ -32,7 +32,7 @@ export const useNotice = (options?: {
     let apiResultData = null
     let total = 0
     try {
-      const response = await axios.post('http://localhost:9321/notice/studentNoticeList', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/studentNoticeList`, {
         ...unref(filters),
         pagination: unref(pagination),
       })

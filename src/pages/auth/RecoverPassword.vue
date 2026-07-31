@@ -5,13 +5,7 @@
       If you've forgotten your password, don't worry. Simply enter your email address below, and we'll send you an email
       with a temporary password. Restoring access to your account has never been easier.
     </p>
-    <VaInput
-      v-model="email"
-      :rules="emailRules"
-      class="mb-4"
-      label="Enter your email"
-      type="email"
-    />
+    <VaInput v-model="email" :rules="emailRules" class="mb-4" label="Enter your email" type="email" />
     <VaButton class="w-full mb-2" @click="submit">Send reset link</VaButton>
     <VaButton :to="{ name: 'login' }" class="w-full" preset="secondary" @click="submit">Go back</VaButton>
   </VaForm>
@@ -33,16 +27,16 @@ const submit = async () => {
   if (form.validate()) {
     try {
       const response = await axiosInstance.post('/auth/forgotPassword', {
-        email: email.value
-      });
-      
-      const { statusCode, message } = response.data;
+        email: email.value,
+      })
+
+      const { statusCode, message } = response.data
       if (statusCode === 200) {
         notify({
           message: message || `Reset link has been sent to ${email.value}`,
           color: 'success',
           duration: 10000,
-        });
+        })
         router.push({ name: 'recover-password-email' })
       } else {
         notify({

@@ -59,64 +59,64 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
 <template>
   <div>
     <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-      v-model:sort-by="sortByVModel"
-      v-model:sorting-order="sortingOrderVModel"
-      :items="projects"
-      :columns="columns"
-      :loading="loading"
-    >
-      <template #cell(project_name)="{ rowData }">
-        <div class="ellipsis max-w-[230px] lg:max-w-[450px]">
-          {{ rowData.project_name }}
-        </div>
-      </template>
-      <template #cell(project_owner)="{ rowData }">
-        <div class="flex items-center gap-2 ellipsis max-w-[230px]">
-          <UserAvatar :user="rowData.project_owner" size="small" />
-          {{ rowData.project_owner.fullname }}
-        </div>
-      </template>
-      <template #cell(team)="{ rowData: project }">
-        <VaAvatarGroup
-          size="small"
-          :options="
-            (project as Project).team.map((user) => ({
-              label: user.fullname,
-              src: user.avatar,
-              fallbackText: user.fullname[0],
-              color: avatarColor(user.fullname),
-            }))
-          "
-          :max="5"
-        />
-      </template>
-      <template #cell(status)="{ rowData: project }">
-        <ProjectStatusBadge :status="project.status" />
-      </template>
+      <VaDataTable
+        v-model:sort-by="sortByVModel"
+        v-model:sorting-order="sortingOrderVModel"
+        :items="projects"
+        :columns="columns"
+        :loading="loading"
+      >
+        <template #cell(project_name)="{ rowData }">
+          <div class="ellipsis max-w-[230px] lg:max-w-[450px]">
+            {{ rowData.project_name }}
+          </div>
+        </template>
+        <template #cell(project_owner)="{ rowData }">
+          <div class="flex items-center gap-2 ellipsis max-w-[230px]">
+            <UserAvatar :user="rowData.project_owner" size="small" />
+            {{ rowData.project_owner.fullname }}
+          </div>
+        </template>
+        <template #cell(team)="{ rowData: project }">
+          <VaAvatarGroup
+            size="small"
+            :options="
+              (project as Project).team.map((user) => ({
+                label: user.fullname,
+                src: user.avatar,
+                fallbackText: user.fullname[0],
+                color: avatarColor(user.fullname),
+              }))
+            "
+            :max="5"
+          />
+        </template>
+        <template #cell(status)="{ rowData: project }">
+          <ProjectStatusBadge :status="project.status" />
+        </template>
 
-      <template #cell(actions)="{ rowData: project }">
-        <div class="flex gap-2 justify-end">
-          <VaButton
-            preset="primary"
-            size="small"
-            color="primary"
-            icon="mso-edit"
-            aria-label="Edit project"
-            @click="$emit('edit', project as Project)"
-          />
-          <VaButton
-            preset="primary"
-            size="small"
-            icon="mso-delete"
-            color="danger"
-            aria-label="Delete project"
-            @click="$emit('delete', project as Project)"
-          />
-        </div>
-      </template>
-    </VaDataTable>
-  </div>
+        <template #cell(actions)="{ rowData: project }">
+          <div class="flex gap-2 justify-end">
+            <VaButton
+              preset="primary"
+              size="small"
+              color="primary"
+              icon="mso-edit"
+              aria-label="Edit project"
+              @click="$emit('edit', project as Project)"
+            />
+            <VaButton
+              preset="primary"
+              size="small"
+              icon="mso-delete"
+              color="danger"
+              aria-label="Delete project"
+              @click="$emit('delete', project as Project)"
+            />
+          </div>
+        </template>
+      </VaDataTable>
+    </div>
     <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
       <div>
         <b>{{ $props.pagination.total }} results.</b>

@@ -66,62 +66,62 @@ const onUserDelete = async (Company: Company) => {
 
 <template>
   <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-    v-model:sort-by="sortByVModel"
-    v-model:sorting-order="sortingOrderVModel"
-    :columns="columns"
-    :items="users"
-    :loading="$props.loading"
-  >
-    <template #cell(companyId)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        {{ rowData.companyId }}
-      </div>
-    </template>
+    <VaDataTable
+      v-model:sort-by="sortByVModel"
+      v-model:sorting-order="sortingOrderVModel"
+      :columns="columns"
+      :items="users"
+      :loading="$props.loading"
+    >
+      <template #cell(companyId)="{ rowData }">
+        <div class="flex items-center gap-2 max-w-[230px] ellipsis">
+          {{ rowData.companyId }}
+        </div>
+      </template>
 
-    <template #cell(name)="{ rowData }">
-      <div class="max-w-[120px] ellipsis">
-        {{ rowData.name }}
-      </div>
-    </template>
+      <template #cell(name)="{ rowData }">
+        <div class="max-w-[120px] ellipsis">
+          {{ rowData.name }}
+        </div>
+      </template>
 
-    <template #cell(email)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.email }}
-      </div>
-    </template>
+      <template #cell(email)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.email }}
+        </div>
+      </template>
 
-    <template #cell(mobileNo)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.mobileNo }}
-      </div>
-    </template>
-    <template #cell(sector)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.sector }}
-      </div>
-    </template>
+      <template #cell(mobileNo)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.mobileNo }}
+        </div>
+      </template>
+      <template #cell(sector)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.sector }}
+        </div>
+      </template>
 
-    <template #cell(actions)="{ rowData }">
-      <div class="flex gap-2 justify-end">
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-edit"
-          aria-label="Edit user"
-          @click="$emit('edit-user', rowData as Company)"
-        />
-        <VaButton
-          preset="primary"
-          size="small"
-          icon="mso-delete"
-          color="danger"
-          aria-label="Delete user"
-          @click="onUserDelete(rowData as Company)"
-        />
-      </div>
-    </template>
-  </VaDataTable>
+      <template #cell(actions)="{ rowData }">
+        <div class="flex gap-2 justify-end">
+          <VaButton
+            preset="primary"
+            size="small"
+            icon="mso-edit"
+            aria-label="Edit user"
+            @click="$emit('edit-user', rowData as Company)"
+          />
+          <VaButton
+            preset="primary"
+            size="small"
+            icon="mso-delete"
+            color="danger"
+            aria-label="Delete user"
+            @click="onUserDelete(rowData as Company)"
+          />
+        </div>
+      </template>
+    </VaDataTable>
   </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">

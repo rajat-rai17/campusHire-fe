@@ -25,8 +25,15 @@
         {{ user.resumeFile }}
       </span>
       <span v-else class="text-gray-500 text-sm">No resume uploaded</span>
-      
-      <VaButton :style="buttonStyles" class="mb-4 md:mb-0" preset="secondary" color="primary" @click="downloadResume" :disabled="!user?.resumeFile">
+
+      <VaButton
+        :style="buttonStyles"
+        class="mb-4 md:mb-0"
+        preset="secondary"
+        color="primary"
+        @click="downloadResume"
+        :disabled="!user?.resumeFile"
+      >
         Download Resume
       </VaButton>
       <VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" @click="emits('openResetPasswordModal')">

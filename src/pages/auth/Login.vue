@@ -28,7 +28,10 @@
     </VaValue>
 
     <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
-      <RouterLink :to="{ name: 'recover-password' }" class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-blue-600 hover:text-blue-700">
+      <RouterLink
+        :to="{ name: 'recover-password' }"
+        class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-blue-600 hover:text-blue-700"
+      >
         Forgot password?
       </RouterLink>
     </div>
@@ -59,7 +62,7 @@ const formData = reactive({
 const submit = async () => {
   if (validate()) {
     try {
-      const response = await axios.post('http://localhost:9321/auth/verifyUser', {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/auth/verifyUser`, {
         email: formData.email,
         password: formData.password,
       })

@@ -64,32 +64,32 @@ const onUserDelete = async (notice: StudentNotice) => {
 
 <template>
   <div class="overflow-x-auto overflow-y-hidden w-full">
-  <VaDataTable
-    v-model:sort-by="sortByVModel"
-    v-model:sorting-order="sortingOrderVModel"
-    :columns="columns"
-    :items="users"
-    :loading="$props.loading"
-  >
-    <template #cell(noticeId)="{ rowData }">
-      <div class="flex items-center gap-2 max-w-[230px] ellipsis">
-        {{ rowData.noticeId }}
-      </div>
-    </template>
+    <VaDataTable
+      v-model:sort-by="sortByVModel"
+      v-model:sorting-order="sortingOrderVModel"
+      :columns="columns"
+      :items="users"
+      :loading="$props.loading"
+    >
+      <template #cell(noticeId)="{ rowData }">
+        <div class="flex items-center gap-2 max-w-[230px] ellipsis">
+          {{ rowData.noticeId }}
+        </div>
+      </template>
 
-    <template #cell(programName)="{ rowData }">
-      <div class="ellipsis max-w-[230px]">
-        {{ rowData.programName }}
-      </div>
-    </template>
+      <template #cell(programName)="{ rowData }">
+        <div class="ellipsis max-w-[230px]">
+          {{ rowData.programName }}
+        </div>
+      </template>
 
-    <template #cell(title)="{ rowData }">
-      <div>
-        {{ rowData.title }}
-      </div>
-    </template>
+      <template #cell(title)="{ rowData }">
+        <div>
+          {{ rowData.title }}
+        </div>
+      </template>
 
-    <!-- <template #cell(actions)="{ rowData }">
+      <!-- <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
         <VaButton
           preset="primary"
@@ -108,7 +108,7 @@ const onUserDelete = async (notice: StudentNotice) => {
         />
       </div>
     </template> -->
-  </VaDataTable>
+    </VaDataTable>
   </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
