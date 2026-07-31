@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
-    <p class="font-bold w-[200px]">Name</p>
+    <p class="font-bold w-full md:w-[200px]">Name</p>
     <div class="flex-1">
       <div class="max-w-[748px]">
         {{ userName }}
@@ -9,7 +9,7 @@
   </div>
   <VaDivider />
   <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
-    <p class="font-bold w-[200px]">Email</p>
+    <p class="font-bold w-full md:w-[200px]">Email</p>
     <div class="flex-1">
       <div class="max-w-[748px]">
         {{ email }}
@@ -17,21 +17,22 @@
     </div>
   </div>
   <VaDivider />
-  <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5">
-    <p class="font-bold w-[200px]">Resume</p>
-    <VaButton
-  :style="buttonStyles"
-  class="mb-4 md:mb-0"
-  preset="secondary"
-  color="primary"
-  @click="downloadResume"
->
-  Download Resume
-</VaButton>
-<VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" @click="emits('openResetPasswordModal')">
-      Upload Resume
-    </VaButton>
-    
+  <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 min-h-[36px] leading-5 items-center">
+    <p class="font-bold w-full md:w-[200px]">Resume</p>
+    <div class="flex-1 flex items-center space-x-4">
+      <span v-if="user?.resumeFile" class="text-green-600 font-semibold text-sm">
+        <VaIcon name="mso-check_circle" class="mr-1" size="small" />
+        {{ user.resumeFile }}
+      </span>
+      <span v-else class="text-gray-500 text-sm">No resume uploaded</span>
+      
+      <VaButton :style="buttonStyles" class="mb-4 md:mb-0" preset="secondary" color="primary" @click="downloadResume" :disabled="!user?.resumeFile">
+        Download Resume
+      </VaButton>
+      <VaButton :style="buttonStyles" class="w-fit h-fit" preset="primary" @click="emits('openResetPasswordModal')">
+        Upload Resume
+      </VaButton>
+    </div>
   </div>
   <VaDivider />
 </template>
@@ -91,7 +92,6 @@ const downloadResume = async () => {
     init({ message: 'Failed to download resume', color: 'danger' })
   }
 }
-
 
 const userRaw = localStorage.getItem('user')
 const user = userRaw ? JSON.parse(userRaw) : null

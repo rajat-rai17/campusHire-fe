@@ -31,9 +31,9 @@ export type Sorting = {
 }
 
 export type Filters = {
-  isActive: boolean,
-  isApplied: boolean,
-  search: string  
+  isActive: boolean
+  isApplied: boolean
+  search: string
 }
 
 const getSortItem = (obj: any, sortBy: string) => {
@@ -46,9 +46,8 @@ const getSortItem = (obj: any, sortBy: string) => {
 
 export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>) => {
   await sleep(1000)
-  const {  search  } = filters
+  const { search } = filters
   let filteredUsers = users
-
 
   if (search) {
     filteredUsers = filteredUsers.filter((user) => user.title.toLowerCase().includes(search.toLowerCase()))
@@ -67,9 +66,9 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 export const addJob = async (job: Job) => {
   try {
-    job.jobId = +job.jobId 
+    job.jobId = +job.jobId
     const response = await axios.post('http://localhost:9321/job/create', {
-      ...job
+      ...job,
     })
     const { data: apiData } = response.data
     return apiData
@@ -82,9 +81,9 @@ export const addJob = async (job: Job) => {
 export const updateJob = async (job: Job) => {
   try {
     job.jobId = +job.jobId
-    
+
     const response = await axios.post('http://localhost:9321/job/update', {
-      ...job
+      ...job,
     })
     const { data: apiData } = response.data
     return apiData
@@ -92,8 +91,6 @@ export const updateJob = async (job: Job) => {
     console.error(error)
   }
   return false
-
-
 }
 
 export const removeJob = async (job: Job) => {
@@ -101,40 +98,36 @@ export const removeJob = async (job: Job) => {
   try {
     job.jobId = +job.jobId
     const response = await axios.post('http://localhost:9321/job/remove', {
-      jobId
+      jobId,
     })
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
     console.error(error)
   }
-  
 }
 
 export const masterData = async (dataRequired: any) => {
   try {
     const response = await axios.post('http://localhost:9321/job/masterData', {
-      dataRequired
+      dataRequired,
     })
-    return  response.data
+    return response.data
   } catch (error) {
     console.error(error)
   }
-  
 }
-
 
 export const applyJob = async (job: Job) => {
   const { jobId } = job
   try {
     job.jobId = +job.jobId
     const response = await axiosInstance.post('job/applyJob', {
-    jobId
+      jobId,
     })
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
     console.error(error)
   }
-  
 }

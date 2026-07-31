@@ -3,8 +3,6 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import AuthLayout from '../layouts/AuthLayout.vue'
 import AppLayout from '../layouts/AppLayout.vue'
 
-import RouteViewComponent from '../layouts/RouterBypass.vue'
-
 const routes: Array<RouteRecordRaw> = [
   // {
   //   path: '/',
@@ -32,6 +30,11 @@ const routes: Array<RouteRecordRaw> = [
         name: 'recover-password',
         path: 'recover-password',
         component: () => import('../pages/auth/RecoverPassword.vue'),
+      },
+      {
+        name: 'reset-password',
+        path: 'reset-password',
+        component: () => import('../pages/auth/ResetPassword.vue'),
       },
       {
         name: 'recover-password-email',
@@ -95,7 +98,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         name: 'studentJobs',
         path: 'studentJobs',
-        component: () => import('../pages/studentJobs/StudentJobsPage.vue'),
+        component: () => import('../pages/StudentJobs/StudentJobsPage.vue'),
         meta: { requiresAuth: true, studentOnly: true },
       },
       {
@@ -103,7 +106,8 @@ const routes: Array<RouteRecordRaw> = [
         path: 'jobs',
         component: () => import('../pages/jobs/JobsPage.vue'),
         meta: { requiresAuth: true, adminOnly: true },
-      },{
+      },
+      {
         name: 'company',
         path: 'company',
         component: () => import('../pages/company/CompanyPage.vue'),
@@ -116,7 +120,6 @@ const routes: Array<RouteRecordRaw> = [
       },
     ],
   },
-  
 ]
 
 const router = createRouter({
@@ -163,8 +166,5 @@ router.beforeEach((to, from, next) => {
 
   next()
 })
-
-
-
 
 export default router

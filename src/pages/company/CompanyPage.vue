@@ -4,7 +4,7 @@ import CompanyTable from './widgets/CompanyTable.vue'
 import EditUserForm from './widgets/EditUserForm.vue'
 import { Company } from './types'
 import { useCompany } from './composables/useCompany'
-import { useModal, useToast } from 'vuestic-ui'
+import { useToast } from 'vuestic-ui'
 
 const doShowEditUserModal = ref(false)
 
@@ -24,27 +24,25 @@ const showAddUserModal = () => {
 const { init: notify } = useToast()
 
 const onUserSaved = async (user: Company) => {
-  const isEdit = Boolean(userToEdit.value);
-  const apiMethod = isEdit ? usersApi.update : usersApi.add;
-  const successMessage = `${user.name} has been ${isEdit ? 'updated' : 'added'}`;
-  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user';
+  const isEdit = Boolean(userToEdit.value)
+  const apiMethod = isEdit ? usersApi.update : usersApi.add
+  const successMessage = `${user.name} has been ${isEdit ? 'updated' : 'added'}`
+  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user'
 
   try {
-    const result = await apiMethod(user);
+    const result = await apiMethod(user)
 
     notify({
       message: result?.status ? successMessage : result?.message || errorMessage,
       color: result?.status ? 'success' : 'danger',
-    });
+    })
   } catch (error) {
     notify({
-      message: error?.message || 'An unexpected error occurred',
+      message: (error as Error)?.message || 'An unexpected error occurred',
       color: 'danger',
-    });
+    })
   }
-};
-
-
+}
 
 const onUserDelete = async (company: Company) => {
   await usersApi.remove(company)
@@ -55,9 +53,6 @@ const onUserDelete = async (company: Company) => {
 }
 
 const editFormRef = ref()
-
-const { confirm } = useModal()
-
 </script>
 
 <template>

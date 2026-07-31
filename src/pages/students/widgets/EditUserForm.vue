@@ -22,7 +22,7 @@ const defaultNewUser: Student = {
   mobileNo: '',
   name: '',
   program: '',
-  email: ''
+  email: '',
 }
 
 const newUser = ref<Student>({ ...defaultNewUser })
@@ -50,9 +50,9 @@ watch(
   // },
   (newValue) => {
     if (newValue) {
-      newUser.value = { ...newValue }; // Populate with the incoming user data
+      newUser.value = { ...newValue } // Populate with the incoming user data
     } else {
-      newUser.value = { ...defaultNewUser }; // Reset to default for a new user
+      newUser.value = { ...defaultNewUser } // Reset to default for a new user
     }
   },
   { immediate: true },
@@ -68,12 +68,11 @@ const onSave = () => {
   }
 }
 
-const roleSelectOptions: {  }[] = [
+const roleSelectOptions: {}[] = [
   { text: 'Bsc IT', value: 'Bsc IT' },
   { text: 'Bsc Computer Science', value: 'Bsc Computer Science' },
   { text: 'BMM', value: 'BMM' },
 ]
-
 </script>
 
 <template>
@@ -113,7 +112,7 @@ const roleSelectOptions: {  }[] = [
       </div>
 
       <div class="flex gap-4 w-full">
-        <div class="w-1/2">
+        <div class="w-full sm:w-1/2">
           <VaSelect
             v-model="newUser.program"
             label="Program"

@@ -81,9 +81,7 @@ export default defineComponent({
 
     // Load routes based on user role
     const userType = JSON.parse(localStorage.getItem('user') || '{}')?.type
-    const navigationRoutes = computed(() =>
-      userType === 'admin' ? adminRoutes : studentRoutes
-    )
+    const navigationRoutes = computed(() => (userType === 'admin' ? adminRoutes : studentRoutes))
 
     const isActiveChildRoute = (child: INavigationRoute) => route.name === child.name
 
@@ -95,22 +93,17 @@ export default defineComponent({
     }
 
     const setActiveExpand = () =>
-      (value.value = navigationRoutes.value.map((route: INavigationRoute) =>
-        routeHasActiveChild(route)
-      ))
+      (value.value = navigationRoutes.value.map((route: INavigationRoute) => routeHasActiveChild(route)))
 
     const sidebarWidth = computed(() => (props.mobile ? '100vw' : '280px'))
     const color = computed(() => getColor('background-secondary'))
     const activeColor = computed(() => colorToRgba(getColor('focus'), 0.1))
 
-    const iconColor = (route: INavigationRoute) =>
-      routeHasActiveChild(route) ? 'primary' : 'secondary'
+    const iconColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'primary' : 'secondary')
 
-    const textColor = (route: INavigationRoute) =>
-      routeHasActiveChild(route) ? 'primary' : 'textPrimary'
+    const textColor = (route: INavigationRoute) => (routeHasActiveChild(route) ? 'primary' : 'textPrimary')
 
-    const arrowDirection = (state: boolean) =>
-      state ? 'va-arrow-up' : 'va-arrow-down'
+    const arrowDirection = (state: boolean) => (state ? 'va-arrow-up' : 'va-arrow-down')
 
     watch(() => route.fullPath, setActiveExpand, { immediate: true })
 

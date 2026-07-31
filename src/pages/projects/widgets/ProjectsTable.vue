@@ -58,7 +58,8 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
 
 <template>
   <div>
-    <VaDataTable
+    <div class="overflow-x-auto overflow-y-hidden w-full">
+  <VaDataTable
       v-model:sort-by="sortByVModel"
       v-model:sorting-order="sortingOrderVModel"
       :items="projects"
@@ -115,6 +116,7 @@ const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagin
         </div>
       </template>
     </VaDataTable>
+  </div>
     <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
       <div>
         <b>{{ $props.pagination.total }} results.</b>

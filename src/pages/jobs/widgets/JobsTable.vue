@@ -8,14 +8,14 @@ import { useVModel } from '@vueuse/core'
 import { Project } from '../../projects/types'
 
 const columns = defineVaDataTableColumns([
-{ label: 'ID', key: 'jobId' },  
-{ label: 'Title', key: 'title' },
+  { label: 'ID', key: 'jobId' },
+  { label: 'Title', key: 'title' },
   { label: 'Type', key: 'type' },
   { label: 'Interview Date', key: 'interviewDate' },
   { label: 'Location', key: 'location' },
-  {label: 'Location Type', key: 'locationType' },
-  {label: 'Company', key: 'companyName' },
-  {label: 'Program', key: 'programName' },
+  { label: 'Location Type', key: 'locationType' },
+  { label: 'Company', key: 'companyName' },
+  { label: 'Program', key: 'programName' },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -33,7 +33,7 @@ const props = defineProps({
 const emit = defineEmits<{
   (event: 'edit-user', user: Job): void
   (event: 'delete-user', user: Job): void
-  (event: 'view-user', user: Job): void 
+  (event: 'view-user', user: Job): void
   (event: 'update:sortBy', sortBy: Sorting['sortBy']): void
   (event: 'update:sortingOrder', sortingOrder: Sorting['sortingOrder']): void
 }>()
@@ -49,7 +49,7 @@ const roleColors: Record<UserRole, string> = {
 }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
-console.log("🚀 ~ props.pagination.total:", props.pagination)
+console.log('🚀 ~ props.pagination.total:', props.pagination)
 const { confirm } = useModal()
 
 const onUserDelete = async (job: Job) => {
@@ -66,10 +66,10 @@ const onUserDelete = async (job: Job) => {
     emit('delete-user', job)
   }
 }
-
 </script>
 
 <template>
+  <div class="overflow-x-auto overflow-y-hidden w-full">
   <VaDataTable
     v-model:sort-by="sortByVModel"
     v-model:sorting-order="sortingOrderVModel"
@@ -91,7 +91,7 @@ const onUserDelete = async (job: Job) => {
 
     <template #cell(workMode)="{ rowData }">
       <div class="ellipsis max-w-[230px]">
-        {{ rowData.type}}
+        {{ rowData.type }}
       </div>
     </template>
 
@@ -116,13 +116,13 @@ const onUserDelete = async (job: Job) => {
     <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
         <VaButton
-      preset="primary"
-      size="small"
-      icon="mso-visibility"
-      color="info"
-      aria-label="View Job"
-      @click="$emit('view-user', rowData as Job)"
-    />
+          preset="primary"
+          size="small"
+          icon="mso-visibility"
+          color="info"
+          aria-label="View Job"
+          @click="$emit('view-user', rowData as Job)"
+        />
         <!-- <VaButton
           preset="primary"
           size="small"
@@ -141,6 +141,7 @@ const onUserDelete = async (job: Job) => {
       </div>
     </template>
   </VaDataTable>
+  </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
     <div>

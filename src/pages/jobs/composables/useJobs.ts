@@ -1,6 +1,15 @@
 import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
-import { getUsers, updateJob, addJob, type Filters, Pagination, Sorting, removeJob, masterData } from '../../../data/pages/jobs'
+import {
+  getUsers,
+  updateJob,
+  addJob,
+  type Filters,
+  Pagination,
+  Sorting,
+  removeJob,
+  masterData,
+} from '../../../data/pages/jobs'
 import { Job } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
@@ -23,13 +32,12 @@ export const useJobs = (options?: {
     let apiResultData = null
     let total = 0
     try {
-      
       const response = await axios.post('http://localhost:9321/job/list', {
         ...unref(filters),
         pagination: unref(pagination),
       })
       const { data: apiData } = response.data
-      
+
       if (apiData?.status) {
         apiResultData = apiData.data
         total = apiData.totalRecords
@@ -40,7 +48,6 @@ export const useJobs = (options?: {
       console.error(error)
       isLoading.value = false
       return
-      
     }
     // const { data, pagination: newPagination } = await getUsers({
     //   ...unref(filters),
@@ -48,7 +55,7 @@ export const useJobs = (options?: {
     //   ...unref(pagination),
     // })
     const oldPagination = unref(pagination)
-    const newPagination  = {
+    const newPagination = {
       page: oldPagination.page,
       perPage: oldPagination.perPage,
       total,
@@ -111,7 +118,7 @@ export const useJobs = (options?: {
     },
 
     async masterData() {
-      const result = await masterData(["programData","companyData"])
+      const result = await masterData(['programData', 'companyData'])
       return result
     },
   }

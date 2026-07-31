@@ -1,4 +1,3 @@
-
 export type UserRole = 'admin' | 'user' | 'owner'
 
 export type Company = {
@@ -6,8 +5,8 @@ export type Company = {
   name: string
   email: string
   mobileNo: string
-  sector: string,
-  website: string,
-  spocName: string,
-  spocMobileNo: string,
+  sector: string
+  website: string
+  spocName: string
+  spocMobileNo: string
 }

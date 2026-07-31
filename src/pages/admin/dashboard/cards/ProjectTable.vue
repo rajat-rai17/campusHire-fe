@@ -33,7 +33,8 @@ const avatarColor = (userName: string) => {
     </VaCardTitle>
     <VaCardContent>
       <div v-if="projects.length > 0">
-        <VaDataTable
+        <div class="overflow-x-auto overflow-y-hidden w-full">
+  <VaDataTable
           v-model:sort-by="sorting.sortBy"
           v-model:sorting-order="sorting.sortingOrder"
           :items="projects"
@@ -69,6 +70,7 @@ const avatarColor = (userName: string) => {
             <ProjectStatusBadge :status="project.status" />
           </template>
         </VaDataTable>
+  </div>
       </div>
       <div v-else class="p-4 flex justify-center items-center text-[var(--va-secondary)]">No projects</div>
     </VaCardContent>

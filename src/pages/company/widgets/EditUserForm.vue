@@ -18,14 +18,14 @@ const props = defineProps({
 })
 
 const defaultNewUser: Company = {
-  companyId:0,
+  companyId: 0,
   mobileNo: '',
   name: '',
   email: '',
   sector: '',
   spocName: '',
   spocMobileNo: '',
-  website: ''
+  website: '',
 }
 
 const newUser = ref<Company>({ ...defaultNewUser })
@@ -53,9 +53,9 @@ watch(
   // },
   (newValue) => {
     if (newValue) {
-      newUser.value = { ...newValue }; // Populate with the incoming user data
+      newUser.value = { ...newValue } // Populate with the incoming user data
     } else {
-      newUser.value = { ...defaultNewUser }; // Reset to default for a new user
+      newUser.value = { ...defaultNewUser } // Reset to default for a new user
     }
   },
   { immediate: true },
@@ -70,8 +70,6 @@ const onSave = () => {
     emit('save', newUser.value)
   }
 }
-
-
 </script>
 
 <template>
@@ -94,7 +92,6 @@ const onSave = () => {
         />
       </div>
       <div class="flex gap-4 flex-col sm:flex-row w-full">
-        
         <VaInput
           v-model="newUser.mobileNo"
           label="Mobile Number"
@@ -113,7 +110,6 @@ const onSave = () => {
       </div>
 
       <div class="flex gap-4 flex-col sm:flex-row w-full">
-        
         <VaInput
           v-model="newUser.spocName"
           label="SPOC Name"
@@ -132,7 +128,6 @@ const onSave = () => {
       </div>
 
       <div class="flex gap-4 flex-col sm:flex-row w-full">
-        
         <VaInput
           v-model="newUser.website"
           label="Website"
@@ -141,9 +136,6 @@ const onSave = () => {
           name="website"
         />
       </div>
-
-
-
 
       <div class="flex gap-2 flex-col-reverse items-stretch justify-end w-full sm:flex-row sm:items-center">
         <VaButton preset="secondary" color="secondary" @click="$emit('close')">Cancel</VaButton>

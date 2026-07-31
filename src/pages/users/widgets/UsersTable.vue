@@ -45,8 +45,8 @@ const roleColors: Record<UserRole, string> = {
 }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
-console.log("🚀 ~ totalPages:", Math.ceil(props.pagination.total / props.pagination.perPage));
-console.log("🚀 ~ props.pagination.total:", props.pagination.total)
+console.log('🚀 ~ totalPages:', Math.ceil(props.pagination.total / props.pagination.perPage))
+console.log('🚀 ~ props.pagination.total:', props.pagination.total)
 
 const { confirm } = useModal()
 
@@ -84,6 +84,7 @@ const formatProjectNames = (projects: Project[]) => {
 </script>
 
 <template>
+  <div class="overflow-x-auto overflow-y-hidden w-full">
   <VaDataTable
     v-model:sort-by="sortByVModel"
     v-model:sorting-order="sortingOrderVModel"
@@ -140,6 +141,7 @@ const formatProjectNames = (projects: Project[]) => {
       </div>
     </template>
   </VaDataTable>
+  </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
     <div>

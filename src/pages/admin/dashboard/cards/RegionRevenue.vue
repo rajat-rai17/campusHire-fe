@@ -10,7 +10,8 @@
         <VaButton preset="primary" size="small" @click="exportAsCSV"> Export </VaButton>
       </div>
 
-      <VaDataTable
+      <div class="overflow-x-auto overflow-y-hidden w-full">
+  <VaDataTable
         class="region-revenue-table"
         :columns="[
           { key: 'name', label: 'Top Region' },
@@ -20,6 +21,7 @@
       >
         <template #cell(revenue)="{ rowData }"> ${{ rowData[`revenue${selectedPeriod}`] }} </template>
       </VaDataTable>
+  </div>
     </VaCardContent>
   </VaCard>
 </template>

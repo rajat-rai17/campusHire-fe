@@ -1,6 +1,14 @@
 import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
-import { getUsers, updateStudent, addStudent, type Filters, Pagination, Sorting, removeStudent } from '../../../data/pages/students'
+import {
+  getUsers,
+  updateStudent,
+  addStudent,
+  type Filters,
+  Pagination,
+  Sorting,
+  removeStudent,
+} from '../../../data/pages/students'
 import { Student } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
@@ -23,13 +31,12 @@ export const useStudents = (options?: {
     let apiResultData = null
     let total = 0
     try {
-      
       const response = await axios.post('http://localhost:9321/student/list', {
         ...unref(filters),
         pagination: unref(pagination),
       })
       const { data: apiData } = response.data
-      
+
       if (apiData?.status) {
         apiResultData = apiData.data
         total = apiData.totalRecords
@@ -40,7 +47,6 @@ export const useStudents = (options?: {
       console.error(error)
       isLoading.value = false
       return
-      
     }
     // const { data, pagination: newPagination } = await getUsers({
     //   ...unref(filters),
@@ -48,7 +54,7 @@ export const useStudents = (options?: {
     //   ...unref(pagination),
     // })
     const oldPagination = unref(pagination)
-    const newPagination  = {
+    const newPagination = {
       page: oldPagination.page,
       perPage: oldPagination.perPage,
       total,

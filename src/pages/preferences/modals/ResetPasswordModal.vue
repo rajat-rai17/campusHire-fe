@@ -1,12 +1,18 @@
 <template>
-  <VaModal max-width="530px" :mobile-fullscreen="false" hide-default-actions model-value close-button
-    @update:modelValue="emits('cancel')">
+  <VaModal
+    max-width="530px"
+    :mobile-fullscreen="false"
+    hide-default-actions
+    model-value
+    close-button
+    @update:modelValue="emits('cancel')"
+  >
     <h1 class="va-h5 mb-4">Upload Resume</h1>
     <VaForm ref="form" class="space-y-6" @submit.prevent="submit">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <VaInput label="Resume" required-mark>
           <template #default>
-            <input type="file" accept="application/pdf" @change="onFileChange" class="w-full" />
+            <input type="file" accept="application/pdf" class="w-full" @change="onFileChange" />
           </template>
         </VaInput>
 
@@ -30,7 +36,6 @@ import axios from 'axios'
 const formData = reactive({
   resume: '',
 })
-
 
 const { validate } = useForm('form')
 const { init } = useToast()
@@ -58,8 +63,6 @@ const generateRandomFilename = (length = 10): string => {
   return `${result}.pdf`
 }
 
-
-
 const submit = async () => {
   if (!selectedFile.value) {
     init({ message: 'Please upload a valid PDF', color: 'danger' })
@@ -75,22 +78,29 @@ const submit = async () => {
 
   try {
     // ✅ Upload the file to /uploads
-    await axiosInstance.post('student/uploadResume', formData, {
+    const response = await axiosInstance.post('student/uploadResume', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     })
 
+    if (response.data?.data?.resumeFile) {
+      const userRaw = localStorage.getItem('user')
+      if (userRaw) {
+        const user = JSON.parse(userRaw)
+        user.resumeFile = response.data.data.resumeFile
+        localStorage.setItem('user', JSON.stringify(user))
+      }
+    }
+
     init({ message: 'Resume uploaded successfully', color: 'success' })
     emits('cancel')
+    setTimeout(() => { window.location.reload() }, 500)
   } catch (error) {
     console.error(error)
     init({ message: 'Failed to upload resume', color: 'danger' })
   }
 }
-
-
-
 </script>
 
 <style lang="scss">

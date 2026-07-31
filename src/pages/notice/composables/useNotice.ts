@@ -2,7 +2,16 @@ import { Ref, ref, unref, watch } from 'vue'
 import axios from 'axios'
 import axiosInstance from '../../../services/axiosInstance'
 
-import { getUsers, updateNotice, addNotice, type Filters, Pagination, Sorting, removeNotice, masterData } from '../../../data/pages/notice'
+import {
+  getUsers,
+  updateNotice,
+  addNotice,
+  type Filters,
+  Pagination,
+  Sorting,
+  removeNotice,
+  masterData,
+} from '../../../data/pages/notice'
 import { Notice } from '../types'
 import { watchIgnorable } from '@vueuse/core'
 
@@ -25,13 +34,12 @@ export const useNotice = (options?: {
     let apiResultData = null
     let total = 0
     try {
-      
       const response = await axiosInstance.post('/notice/list', {
-          ...unref(filters),
-          pagination: unref(pagination),
-        })
+        ...unref(filters),
+        pagination: unref(pagination),
+      })
       const { data: apiData } = response.data
-      
+
       if (apiData?.status) {
         apiResultData = apiData.data
         total = apiData.totalRecords
@@ -42,7 +50,6 @@ export const useNotice = (options?: {
       console.error(error)
       isLoading.value = false
       return
-      
     }
     // const { data, pagination: newPagination } = await getUsers({
     //   ...unref(filters),
@@ -50,7 +57,7 @@ export const useNotice = (options?: {
     //   ...unref(pagination),
     // })
     const oldPagination = unref(pagination)
-    const newPagination  = {
+    const newPagination = {
       page: oldPagination.page,
       perPage: oldPagination.perPage,
       total,
@@ -111,8 +118,8 @@ export const useNotice = (options?: {
     },
 
     async masterData() {
-          const result = await masterData(["programData"])
-          return result
-        },
+      const result = await masterData(['programData'])
+      return result
+    },
   }
 }

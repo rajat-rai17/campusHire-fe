@@ -12,7 +12,7 @@ const props = defineProps({
     default: null,
   },
   programData: {
-    type: Array as PropType<Array<any>>,  // Accept programData
+    type: Array as PropType<Array<any>>, // Accept programData
     default: () => [],
   },
   saveButtonLabel: {
@@ -21,17 +21,16 @@ const props = defineProps({
   },
 })
 const programOptions = computed(() => {
-  return props.programData.map(program => ({
+  return props.programData.map((program) => ({
     value: program.programId, // Bind programId
-    text: program.name // Show program name
-  }));
-});
-
+    text: program.name, // Show program name
+  }))
+})
 
 const defaultNewUser: Notice = {
-  noticeId:0,
+  noticeId: 0,
   title: '',
-  programs:[]
+  programs: [],
 }
 
 const newUser = ref<Notice>({ ...defaultNewUser })
@@ -54,13 +53,13 @@ watch(
   () => props.user,
   (newValue) => {
     if (newValue) {
-      newUser.value = { ...newValue };// Populate with the incoming user data
-      // Auto-set program and company selections based on `userToEdit` 
+      newUser.value = { ...newValue } // Populate with the incoming user data
+      // Auto-set program and company selections based on `userToEdit`
       newUser.value.programs = newValue.programId
-        ? programOptions.value.filter(p => p.value === newValue.programId)
-        : [];// Populate with the incoming user data
+        ? programOptions.value.filter((p) => p.value === newValue.programId)
+        : [] // Populate with the incoming user data
     } else {
-      newUser.value = { ...defaultNewUser }; // Reset to default for a new user
+      newUser.value = { ...defaultNewUser } // Reset to default for a new user
     }
   },
   { immediate: true },
@@ -75,16 +74,21 @@ const onSave = () => {
     emit('save', newUser.value)
   }
 }
-
-
 </script>
 
 <template>
   <VaForm v-slot="{ isValid }" ref="add-user-form" class="flex-col justify-start items-start gap-4 inline-flex w-full">
     <div class="self-stretch flex-col justify-start items-start gap-4 flex">
       <div class="flex gap-4 flex-col sm:flex-row w-full">
-        <VaSelect v-model="newUser.programs" :options="programOptions" track-by="value" text-by="text"   label="ELigible Programs"
-          class="w-full sm:w-1/2" :rules="[validators.required]" />
+        <VaSelect
+          v-model="newUser.programs"
+          :options="programOptions"
+          track-by="value"
+          text-by="text"
+          label="ELigible Programs"
+          class="w-full sm:w-1/2"
+          :rules="[validators.required]"
+        />
       </div>
       <div class="flex gap-4 flex-col sm:flex-row w-full">
         <VaTextarea v-model="newUser.title" label="Title" class="w-full" name="title" />

@@ -31,7 +31,7 @@ export type Sorting = {
 
 export type Filters = {
   isActive: boolean
-  search: string  
+  search: string
 }
 
 const getSortItem = (obj: any, sortBy: string) => {
@@ -44,9 +44,8 @@ const getSortItem = (obj: any, sortBy: string) => {
 
 export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>) => {
   await sleep(1000)
-  const {  search  } = filters
+  const { search } = filters
   let filteredUsers = users
-
 
   if (search) {
     filteredUsers = filteredUsers.filter((user) => user.programs.includes(search.toLowerCase()))
@@ -66,9 +65,9 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 export const addNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
-    
+
     const response = await axios.post('http://localhost:9321/notice/create', {
-      ...notice
+      ...notice,
     })
     const { data: apiData } = response.data
     return apiData
@@ -81,9 +80,9 @@ export const addNotice = async (notice: Notice) => {
 export const updateNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
-    
+
     const response = await axios.post('http://localhost:9321/notice/update', {
-      ...notice
+      ...notice,
     })
     const { data: apiData } = response.data
     return apiData
@@ -91,8 +90,6 @@ export const updateNotice = async (notice: Notice) => {
     console.error(error)
   }
   return false
-
-
 }
 
 export const removeNotice = async (notice: Notice) => {
@@ -100,24 +97,22 @@ export const removeNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
     const response = await axios.post('http://localhost:9321/notice/remove', {
-      noticeId
+      noticeId,
     })
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
     console.error(error)
   }
-  
 }
 
 export const masterData = async (dataRequired: any) => {
   try {
     const response = await axios.post('http://localhost:9321/notice/masterData', {
-      dataRequired
+      dataRequired,
     })
-    return  response.data
+    return response.data
   } catch (error) {
     console.error(error)
   }
-  
 }

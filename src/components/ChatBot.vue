@@ -1,17 +1,17 @@
 <template>
   <div class="chatbot-container">
     <!-- Chatbot Icon with Neon Effect -->
-    <div class="chatbot-icon" @click="toggleChat" v-if="!isChatOpen">
+    <div v-if="!isChatOpen" class="chatbot-icon" @click="toggleChat">
       <span class="chat-icon">🤖</span>
     </div>
 
-    <div class="chatbot-window" v-if="isChatOpen">
+    <div v-if="isChatOpen" class="chatbot-window">
       <div class="chatbot-header">
         <h3>CampusHire Assistant</h3>
         <button class="close-btn" @click="toggleChat">×</button>
       </div>
 
-      <div class="chatbot-messages" ref="messagesContainer">
+      <div ref="messagesContainer" class="chatbot-messages">
         <div
           v-for="(msg, index) in messages"
           :key="index"
@@ -30,13 +30,13 @@
 
       <div class="chatbot-input">
         <input
-          type="text"
           v-model="userInput"
-          @keyup.enter="sendMessage"
+          type="text"
           placeholder="Ask a question..."
           :disabled="isLoading"
+          @keyup.enter="sendMessage"
         />
-        <button @click="sendMessage" :disabled="isLoading || !userInput.trim()">Send</button>
+        <button :disabled="isLoading || !userInput.trim()" @click="sendMessage">Send</button>
       </div>
     </div>
   </div>
@@ -120,7 +120,10 @@ export default {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 0 5px #00f, 0 0 10px #00f, 0 0 15px #00f;
+  box-shadow:
+    0 0 5px #00f,
+    0 0 10px #00f,
+    0 0 15px #00f;
   transition: transform 0.3s ease;
 }
 
@@ -131,7 +134,10 @@ export default {
 .chat-icon {
   font-size: 24px;
   color: white;
-  text-shadow: 0 0 5px #00f, 0 0 10px #00f, 0 0 15px #00f;
+  text-shadow:
+    0 0 5px #00f,
+    0 0 10px #00f,
+    0 0 15px #00f;
 }
 
 /* Chatbot Window Styles */

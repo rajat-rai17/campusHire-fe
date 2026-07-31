@@ -82,7 +82,7 @@ const studentRoutes: INavigationRoute[] = [
     meta: {
       icon: 'group',
     },
-  }
+  },
 ]
 
 export { adminRoutes, studentRoutes }

@@ -149,7 +149,7 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
       </div>
 
       <div class="flex gap-4 w-full">
-        <div class="w-1/2">
+        <div class="w-full sm:w-1/2">
           <VaSelect
             v-model="newUser.role"
             label="Role"
@@ -161,7 +161,7 @@ const { projects } = useProjects({ pagination: ref({ page: 1, perPage: 9999, tot
           />
         </div>
 
-        <div class="flex items-center w-1/2 mt-4">
+        <div class="flex items-center w-full sm:w-1/2 mt-4">
           <VaCheckbox v-model="newUser.active" label="Active" class="w-full" name="active" />
         </div>
       </div>

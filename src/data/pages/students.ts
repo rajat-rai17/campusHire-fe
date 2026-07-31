@@ -31,7 +31,7 @@ export type Sorting = {
 
 export type Filters = {
   isActive: boolean
-  search: string  
+  search: string
 }
 
 const getSortItem = (obj: any, sortBy: string) => {
@@ -44,9 +44,8 @@ const getSortItem = (obj: any, sortBy: string) => {
 
 export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>) => {
   await sleep(1000)
-  const {  search  } = filters
+  const { search } = filters
   let filteredUsers = users
-
 
   if (search) {
     filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
@@ -65,11 +64,9 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 
 export const addStudent = async (student: Student) => {
   try {
-    student.studentId = +student.studentId
-    
-    const response = await axios.post('http://localhost:9321/student/create', {
-      ...student
-    })
+    const payload = { ...student, studentId: Number(student.studentId) }
+
+    const response = await axios.post('http://localhost:9321/student/create', payload)
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
@@ -80,32 +77,26 @@ export const addStudent = async (student: Student) => {
 
 export const updateStudent = async (student: Student) => {
   try {
-    student.studentId = +student.studentId
-    
-    const response = await axios.post('http://localhost:9321/student/update', {
-      ...student
-    })
+    const payload = { ...student, studentId: Number(student.studentId) }
+
+    const response = await axios.post('http://localhost:9321/student/update', payload)
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
     console.error(error)
   }
   return false
-
-
 }
 
 export const removeStudent = async (student: Student) => {
   const { studentId } = student
   try {
-    student.studentId = +student.studentId
     const response = await axios.post('http://localhost:9321/student/remove', {
-      studentId
+      studentId: Number(studentId),
     })
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
     console.error(error)
   }
-  
 }

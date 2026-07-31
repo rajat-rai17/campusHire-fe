@@ -5,15 +5,8 @@
     </template>
   </VaInput>
 
-  <section
-    v-if="filteredCategories.length"
-    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5"
-  >
-    <div
-      v-for="category in filteredCategories"
-      :key="category.id"
-      class="w-full"
-    >
+  <section v-if="filteredCategories.length" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-5">
+    <div v-for="category in filteredCategories" :key="category.id" class="w-full">
       <VaCard class="w-full">
         <VaCardContent class="text-sm">
           <div class="aspect-w-16 aspect-h-9 mb-2">
@@ -48,18 +41,12 @@ const filteredCategories = computed(() => {
   if (!value) return categories
 
   return categories.filter(
-    (category) =>
-      category.name.toLowerCase().includes(value) ||
-      category.link.toLowerCase().includes(value)
+    (category) => category.name.toLowerCase().includes(value) || category.link.toLowerCase().includes(value),
   )
 })
 
 function getYoutubeEmbedUrl(url: string) {
-  const match = url.match(
-    /(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/
-  )
-  return match
-    ? `https://www.youtube.com/embed/${match[1]}`
-    : 'https://www.youtube.com/embed/'
+  const match = url.match(/(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([^&]+)/)
+  return match ? `https://www.youtube.com/embed/${match[1]}` : 'https://www.youtube.com/embed/'
 }
 </script>

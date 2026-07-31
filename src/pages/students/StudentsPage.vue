@@ -24,27 +24,25 @@ const showAddUserModal = () => {
 const { init: notify } = useToast()
 
 const onUserSaved = async (user: Student) => {
-  const isEdit = Boolean(userToEdit.value);
-  const apiMethod = isEdit ? usersApi.update : usersApi.add;
-  const successMessage = `${user.name} has been ${isEdit ? 'updated' : 'added'}`;
-  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user';
+  const isEdit = Boolean(userToEdit.value)
+  const apiMethod = isEdit ? usersApi.update : usersApi.add
+  const successMessage = `${user.name} has been ${isEdit ? 'updated' : 'added'}`
+  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user'
 
   try {
-    const result = await apiMethod(user);
+    const result = await apiMethod(user)
 
     notify({
       message: result?.status ? successMessage : result?.message || errorMessage,
       color: result?.status ? 'success' : 'danger',
-    });
+    })
   } catch (error) {
     notify({
-      message: error?.message || 'An unexpected error occurred',
+      message: (error as Error)?.message || 'An unexpected error occurred',
       color: 'danger',
-    });
+    })
   }
-};
-
-
+}
 
 const onUserDelete = async (student: Student) => {
   await usersApi.remove(student)
@@ -57,7 +55,6 @@ const onUserDelete = async (student: Student) => {
 const editFormRef = ref()
 
 const { confirm } = useModal()
-
 </script>
 
 <template>

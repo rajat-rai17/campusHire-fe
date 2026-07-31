@@ -8,14 +8,14 @@ import { useVModel } from '@vueuse/core'
 import { Project } from '../../projects/types'
 
 const columns = defineVaDataTableColumns([
-{ label: 'ID', key: 'jobId' },  
-{ label: 'Title', key: 'title' },
+  { label: 'ID', key: 'jobId' },
+  { label: 'Title', key: 'title' },
   { label: 'Type', key: 'type' },
   { label: 'Interview Date', key: 'interviewDate' },
   { label: 'Location', key: 'location' },
-  {label: 'Location Type', key: 'locationType' },
-  {label: 'Company', key: 'companyName' },
-  {label: 'Program', key: 'programName' },
+  { label: 'Location Type', key: 'locationType' },
+  { label: 'Company', key: 'companyName' },
+  { label: 'Program', key: 'programName' },
   { label: ' ', key: 'actions', align: 'right' },
 ])
 
@@ -28,7 +28,7 @@ const props = defineProps({
   pagination: { type: Object as PropType<Pagination>, required: true },
   sortBy: { type: String as PropType<Sorting['sortBy']>, required: true },
   sortingOrder: { type: String as PropType<Sorting['sortingOrder']>, required: true },
-    filters: { type: Object as PropType<{ isApplied: boolean }>, required: true }, 
+  filters: { type: Object as PropType<{ isApplied: boolean }>, required: true },
 })
 
 const emit = defineEmits<{
@@ -65,10 +65,10 @@ const onJobApplied = async (job: Job) => {
     emit('delete-user', job)
   }
 }
-
 </script>
 
 <template>
+  <div class="overflow-x-auto overflow-y-hidden w-full">
   <VaDataTable
     v-model:sort-by="sortByVModel"
     v-model:sorting-order="sortingOrderVModel"
@@ -90,7 +90,7 @@ const onJobApplied = async (job: Job) => {
 
     <template #cell(workMode)="{ rowData }">
       <div class="ellipsis max-w-[230px]">
-        {{ rowData.type}}
+        {{ rowData.type }}
       </div>
     </template>
 
@@ -115,15 +115,17 @@ const onJobApplied = async (job: Job) => {
     <template #cell(actions)="{ rowData }">
       <div class="flex gap-2 justify-end">
         <VaButton
-        v-if="!props.filters.isApplied"
+          v-if="!props.filters.isApplied"
           preset="primary"
           size="small"
           aria-label="Apply Job"
           @click="onJobApplied(rowData as Job)"
-        >Apply</VaButton>
+          >Apply</VaButton
+        >
       </div>
     </template>
   </VaDataTable>
+  </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
     <div>

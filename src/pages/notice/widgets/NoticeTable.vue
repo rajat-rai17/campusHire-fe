@@ -8,7 +8,7 @@ import { useVModel } from '@vueuse/core'
 import { Project } from '../../projects/types'
 
 const columns = defineVaDataTableColumns([
-  { label: 'ID', key: 'noticeId' },  
+  { label: 'ID', key: 'noticeId' },
   { label: 'Title', key: 'title' },
   { label: 'Program', key: 'programName' },
   { label: ' ', key: 'actions', align: 'right' },
@@ -43,7 +43,7 @@ const roleColors: Record<UserRole, string> = {
 }
 
 const totalPages = computed(() => Math.ceil(props.pagination.total / props.pagination.perPage))
-console.log("🚀 ~ props.pagination.total:", props.pagination)
+console.log('🚀 ~ props.pagination.total:', props.pagination)
 const { confirm } = useModal()
 
 const onUserDelete = async (notice: Notice) => {
@@ -60,10 +60,10 @@ const onUserDelete = async (notice: Notice) => {
     emit('delete-user', notice)
   }
 }
-
 </script>
 
 <template>
+  <div class="overflow-x-auto overflow-y-hidden w-full">
   <VaDataTable
     v-model:sort-by="sortByVModel"
     v-model:sorting-order="sortingOrderVModel"
@@ -102,6 +102,7 @@ const onUserDelete = async (notice: Notice) => {
       </div>
     </template>
   </VaDataTable>
+  </div>
 
   <div class="flex flex-col-reverse md:flex-row gap-2 justify-between items-center py-2">
     <div>

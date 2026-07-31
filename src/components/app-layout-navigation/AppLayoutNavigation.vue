@@ -37,7 +37,6 @@ const navigationRoutes = computed(() => {
   return userType === 'admin' ? adminRoutes : studentRoutes
 })
 
-
 const { isSidebarMinimized } = storeToRefs(useGlobalStore())
 
 const router = useRouter()
@@ -68,7 +67,6 @@ const findRouteName = (name: string) => {
 
   return traverse(navigationRoutes.value)
 }
-
 
 const items = computed(() => {
   const result: { label: string; to: string; hasChildren: boolean }[] = []

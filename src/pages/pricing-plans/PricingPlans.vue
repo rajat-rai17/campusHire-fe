@@ -25,7 +25,7 @@
           '!bg-backgroundCardPrimary': plan.model !== 'Advanced',
           'ring-2 ring-primary ring-offset-2': plan.model === selectedPlan,
         }"
-        class="flex w-[326px] md:w-[349px] h-fit p-6 rounded-[13px]"
+        class="flex w-full max-w-[326px] md:max-w-[349px] h-fit p-6 rounded-[13px]"
       >
         <div :class="{ '!space-y-10': plan.model === 'Advanced' }" class="space-y-8 md:space-y-10">
           <div class="space-y-4 text-center">

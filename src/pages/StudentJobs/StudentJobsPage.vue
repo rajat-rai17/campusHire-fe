@@ -5,28 +5,21 @@ import { Job } from './types'
 import { useJobs } from './composables/useJobs'
 import { useModal, useToast } from 'vuestic-ui'
 
-
 const { users, isLoading, filters, sorting, pagination, ...usersApi } = useJobs()
 
-
 const { init: notify } = useToast()
-
-
 
 const onUserApplied = async (job: Job) => {
   await usersApi.applyJob(job)
   filters.value.isApplied = true // ✅ Toggle to "Applied"
-  await usersApi.fetch()   // ✅ Fetch applied jobs only
+  await usersApi.fetch() // ✅ Fetch applied jobs only
   await usersApi.fetch()
   notify({
     message: `${job.title} has been applied`,
     color: 'success',
   })
 }
-
-
 </script>
-
 
 <template>
   <h1 class="page-title">Jobs</h1>
@@ -63,5 +56,4 @@ const onUserApplied = async (job: Job) => {
       />
     </VaCardContent>
   </VaCard>
-
 </template>

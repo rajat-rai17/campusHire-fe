@@ -3,7 +3,6 @@ import { Company } from '../../pages/company/types'
 import usersDb from './company-db.json'
 import axios from 'axios'
 
-
 export const users = usersDb as unknown as Company[]
 
 // const getUserProjects = (userId: number | string) => {
@@ -32,7 +31,7 @@ export type Sorting = {
 
 export type Filters = {
   isActive: boolean
-  search: string  
+  search: string
 }
 
 const getSortItem = (obj: any, sortBy: string) => {
@@ -45,9 +44,8 @@ const getSortItem = (obj: any, sortBy: string) => {
 
 export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>) => {
   await sleep(1000)
-  const {  search  } = filters
+  const { search } = filters
   let filteredUsers = users
-
 
   if (search) {
     filteredUsers = filteredUsers.filter((user) => user.name.toLowerCase().includes(search.toLowerCase()))
@@ -67,7 +65,7 @@ export const getUsers = async (filters: Partial<Filters & Pagination & Sorting>)
 export const addCompany = async (company: Company) => {
   try {
     const response = await axios.post('http://localhost:9321/company/create', {
-      ...company
+      ...company,
     })
     const { data: apiData } = response.data
     return apiData
@@ -80,9 +78,9 @@ export const addCompany = async (company: Company) => {
 export const updateCompany = async (company: Company) => {
   try {
     company.companyId = +company.companyId
-    
+
     const response = await axios.post('http://localhost:9321/company/update', {
-      ...company
+      ...company,
     })
     const { data: apiData } = response.data
     return apiData
@@ -90,8 +88,6 @@ export const updateCompany = async (company: Company) => {
     console.error(error)
   }
   return false
-
-
 }
 
 export const removeCompany = async (company: Company) => {
@@ -99,12 +95,11 @@ export const removeCompany = async (company: Company) => {
   try {
     company.companyId = +company.companyId
     const response = await axios.post('http://localhost:9321/company/remove', {
-      companyId
+      companyId,
     })
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
     console.error(error)
   }
-  
 }

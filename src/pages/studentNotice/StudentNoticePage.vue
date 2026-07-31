@@ -10,46 +10,44 @@ const doShowEditUserModal = ref(false)
 
 const { users, isLoading, filters, sorting, pagination, ...usersApi } = useNotice()
 const userToEdit = ref<StudentNotice | null>(null)
-const programData = ref([]);   
+const programData = ref([])
 
 const showEditUserModal = async (user: StudentNotice) => {
   userToEdit.value = user
   doShowEditUserModal.value = true
   const result = await usersApi.masterData()
-  programData.value = result.data.programData || [];
+  programData.value = result.data.programData || []
 }
 
-const showAddUserModal = async() => {
+const showAddUserModal = async () => {
   userToEdit.value = null
   doShowEditUserModal.value = true
   const result = await usersApi.masterData()
-  programData.value = result.data.programData || [];
+  programData.value = result.data.programData || []
 }
 
 const { init: notify } = useToast()
 
 const onUserSaved = async (user: StudentNotice) => {
-  const isEdit = Boolean(userToEdit.value);
-  const apiMethod = isEdit ? usersApi.update : usersApi.add;
-  const successMessage = `${user.noticeId} has been ${isEdit ? 'updated' : 'added'}`;
-  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user';
+  const isEdit = Boolean(userToEdit.value)
+  const apiMethod = isEdit ? usersApi.update : usersApi.add
+  const successMessage = `${user.noticeId} has been ${isEdit ? 'updated' : 'added'}`
+  const errorMessage = isEdit ? 'Failed to update user' : 'Failed to add user'
 
   try {
-    const result = await apiMethod(user);
+    const result = await apiMethod(user)
 
     notify({
       message: result?.status ? successMessage : result?.message || errorMessage,
       color: result?.status ? 'success' : 'danger',
-    });
+    })
   } catch (error) {
     notify({
-      message: error?.message || 'An unexpected error occurred',
+      message: (error as Error)?.message || 'An unexpected error occurred',
       color: 'danger',
-    });
+    })
   }
-};
-
-
+}
 
 const onUserDelete = async (notice: StudentNotice) => {
   await usersApi.remove(notice)
@@ -62,7 +60,6 @@ const onUserDelete = async (notice: StudentNotice) => {
 const editFormRef = ref()
 
 const { confirm } = useModal()
-
 </script>
 
 <template>

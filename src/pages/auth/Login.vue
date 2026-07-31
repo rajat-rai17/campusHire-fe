@@ -27,11 +27,11 @@
       </VaInput>
     </VaValue>
 
-    <!-- <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
-      <RouterLink :to="{ name: 'recover-password' }" class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-primary">
+    <div class="auth-layout__options flex flex-col sm:flex-row items-start sm:items-center justify-between">
+      <RouterLink :to="{ name: 'recover-password' }" class="mt-2 sm:mt-0 sm:ml-1 font-semibold text-blue-600 hover:text-blue-700">
         Forgot password?
       </RouterLink>
-    </div> -->
+    </div>
 
     <div class="flex justify-center mt-4">
       <VaButton class="w-full" @click="submit"> Login</VaButton>
@@ -65,16 +65,15 @@ const submit = async () => {
       })
       const { data: apiData } = response?.data || {}
       if (apiData.status) {
-        localStorage.setItem('token', apiData.token);
-        localStorage.setItem('user', JSON.stringify(apiData.userData));
+        localStorage.setItem('token', apiData.token)
+        localStorage.setItem('user', JSON.stringify(apiData.userData))
         init({ message: "You've successfully logged in", color: 'success' })
         push({ name: 'dashboard' })
-      }
-      else init({ message: "Invalid Email Id & Password", color: 'danger' })
+      } else init({ message: 'Invalid Email Id & Password', color: 'danger' })
     } catch (error) {
       console.error(error)
-      init({ message: "Invalid Email Id & Password", color: 'danger' })
-    } 
+      init({ message: 'Invalid Email Id & Password', color: 'danger' })
+    }
   }
 }
 </script>
