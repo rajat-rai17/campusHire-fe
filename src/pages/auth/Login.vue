@@ -62,10 +62,13 @@ const formData = reactive({
 const submit = async () => {
   if (validate()) {
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/auth/verifyUser`, {
-        email: formData.email,
-        password: formData.password,
-      })
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/auth/verifyUser`,
+        {
+          email: formData.email,
+          password: formData.password,
+        },
+      )
       const { data: apiData } = response?.data || {}
       if (apiData.status) {
         localStorage.setItem('token', apiData.token)

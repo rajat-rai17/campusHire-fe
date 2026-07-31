@@ -66,7 +66,10 @@ export const addStudent = async (student: Student) => {
   try {
     const payload = { ...student, studentId: Number(student.studentId) }
 
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/create`, payload)
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/create`,
+      payload,
+    )
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
@@ -79,7 +82,10 @@ export const updateStudent = async (student: Student) => {
   try {
     const payload = { ...student, studentId: Number(student.studentId) }
 
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/update`, payload)
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/update`,
+      payload,
+    )
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
@@ -91,9 +97,12 @@ export const updateStudent = async (student: Student) => {
 export const removeStudent = async (student: Student) => {
   const { studentId } = student
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/remove`, {
-      studentId: Number(studentId),
-    })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/remove`,
+      {
+        studentId: Number(studentId),
+      },
+    )
     const { data: apiData } = response.data
     return apiData
   } catch (error) {

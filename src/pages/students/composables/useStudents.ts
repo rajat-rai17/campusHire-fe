@@ -31,10 +31,13 @@ export const useStudents = (options?: {
     let apiResultData = null
     let total = 0
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/list`, {
-        ...unref(filters),
-        pagination: unref(pagination),
-      })
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/student/list`,
+        {
+          ...unref(filters),
+          pagination: unref(pagination),
+        },
+      )
       const { data: apiData } = response.data
 
       if (apiData?.status) {

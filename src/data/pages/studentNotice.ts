@@ -66,9 +66,12 @@ export const addNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
 
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/create`, {
-      ...notice,
-    })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/create`,
+      {
+        ...notice,
+      },
+    )
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
@@ -81,9 +84,12 @@ export const updateNotice = async (notice: Notice) => {
   try {
     notice.noticeId = +notice.noticeId
 
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/update`, {
-      ...notice,
-    })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/update`,
+      {
+        ...notice,
+      },
+    )
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
@@ -96,9 +102,12 @@ export const removeNotice = async (notice: Notice) => {
   const { noticeId } = notice
   try {
     notice.noticeId = +notice.noticeId
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/remove`, {
-      noticeId,
-    })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/remove`,
+      {
+        noticeId,
+      },
+    )
     const { data: apiData } = response.data
     return apiData
   } catch (error) {
@@ -108,9 +117,12 @@ export const removeNotice = async (notice: Notice) => {
 
 export const masterData = async (dataRequired: any) => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/masterData`, {
-      dataRequired,
-    })
+    const response = await axios.post(
+      `${import.meta.env.VITE_API_URL || import.meta.env.VITE_API_URL || 'http://localhost:9321'}/notice/masterData`,
+      {
+        dataRequired,
+      },
+    )
     return response.data
   } catch (error) {
     console.error(error)
